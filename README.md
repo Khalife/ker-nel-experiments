@@ -17,5 +17,5 @@ These modules were conceived in as part of a Named entity linking problem but ar
 
 As a type mapping, we considered a constant mapping function.
 
-The type mapping function we used is equal to 1 for type 'City' on the following entity types : 'AdministrativeRegion', 'Country', 'RadioStation', 'Road', 'OfficeHolder', 'MusicalArtist', 'School', 'BaseballPlayer', 'MilitaryPerson', 'Settlement', 'Company', 'University', 'Building', 'SoccerPlayer', 'IceHockeyPlayer', 'AmericanFootballPlayer', 'Wrestler', 'Politician', 'Congressman', 'Band', and 0 otherwise.
-
+The type mapping function we used is equal to 1 for type 'City' on the following entity types : 'AdministrativeRegion', 'Country', 'RadioStation', 'Road', 'OfficeHolder', 'MusicalArtist', 'School', 'BaseballPlayer', 'MilitaryPerson', 'Settlement', 'Company', 'University', 'Building', 'SoccerPlayer', 'IceHockeyPlayer', 'AmericanFootballPlayer', 'Wrestler', 'Politician', 'Congressman', 'Band', and 0 otherwise. 
+We also used graph mining with the same mapping function for entity types : "Settlement", "Company", "University", "OfficeHolder", because these types were most concerned by mis-identification, and enough training data were available for these types in TAC10-TRAIN and TAC14-TRAIN
