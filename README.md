@@ -15,7 +15,7 @@ This module provides a filtering algorithm to discard less similar entities to a
 
 3 - Graph mining for new score features and identification algorithm  
 KER-NEL (Knowledge graph exploration and node ranking for named entity linking) uses the knowledge graph to extract semantic information for a given entity node.  
-Then, capitalizes on filtering method to take as input a reduced set of entity candidates, it returns the most probable underlying entity to a given query. 
+Then, capitalizing on a filtering method to take as input a reduced set of entity candidates, it returns the most probable underlying entity to a given query. 
 We added an example of regression/classification training using these new entity features. 
 
 
