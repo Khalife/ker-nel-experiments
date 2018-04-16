@@ -191,30 +191,11 @@ for i_dic in knowledgeBase:
                  continue
     except:
         continue
-    #DIC_KB_TFIDF[i_dic["entity_id"]] = M_KB_TFIDF[index_kb]
     indexes_kb_to_keep.append(index_kb)
     index_kb += 1
 
-#pdb.set_trace()
 matrix_kb = M_KB_TFIDF[indexes_kb_to_keep,:]
 
-
-
-
-
-
-
-
-
-
-
-
-#pdb.set_trace()
-#joblib.dump(Vectorizer, "tfidfVectorizer-" + str(nb_max_features) + "-2-" + category +  ".pkl")
-#joblib.dump(DIC_KB_TFIDF, "tfidfDic-" + str(nb_max_features) + "-2-" + category + ".pkl")
-
-#M_KB_TFIDF = Vectorizer.transform(text_list)
-#dump_name1 = joblib.dump(M_KB_TFIDF, "tfidfMatrix.pkl") 
 
 print("TFIDF done")
 
@@ -416,10 +397,7 @@ def acronymScore(str1, str2):
     capital_letters = "".join([l for l in str2 if l.isupper()])
     first_words = str2.split()
     first_letters = "".join([fw[0] for fw in first_words])
-    #len_longest_letters = float(max([len(str1), len(str2)])        
     norm_nb_letters = float(len(str1))
-    #norm_nb_letters = float(max([len(str1), len(str2)]))
-    #lv_score = 0.5*(levenshtein(str1, capital_letters)
     total_letters = capital_letters
     for letter in first_letters:
         if letter not in capital_letters:
@@ -433,23 +411,15 @@ def acronymScore1(str1, str2):
     capital_letters = "".join([l for l in str2 if l.isupper()])
     first_words = str2.split()
     first_letters = "".join([fw[0] for fw in first_words])
-    #len_longest_letters = float(max([len(str1), len(str2)])        
     norm_nb_letters = min([len(str1), len(str2)])
     
-    #norm_nb_letters = float(max([len(str1), len(str2)]))
-    #lv_score = 0.5*(levenshtein(str1, capital_letters)
     total_letters = capital_letters
     for letter in first_letters:
         if letter not in capital_letters:
             total_letters = total_letters + letter
     
-    #total_letters = total_letters[:int(norm_nb_letters)]
-    #acronym_score = 1 - levenshtein(str1.lower(), total_letters.lower())/norm_nb_letters
     lcs1 = longest_common_substring(str1.lower(),total_letters.lower())
-    #lcs2 = longest_common_substring(str1.lower(), str2.lower())
-    #acronym_score = lcs1/float(norm_nb_letters)
     acronym_score = lcs1/norm_nb_letters
-    #acronym_score = 0.5*(lcs1 + lcs2)/norm_nb_letters
     return acronym_score
 
 
@@ -580,7 +550,6 @@ def nelRankingSystem(dic_line):
     mention_name = dic_line["mention_name"]
     mention_id = dic_line["mention_id"]
     mention_gold_entity_id = dic_line["gold_entity_id"]
-    #mention_gold_entity_type = dic_line["gold_entity_type"]
     mention_gold_entity_type = entityIdToType[mention_gold_entity_id]
     mention_index = int(dic_line["mention_index"])
     M_mention_tfidf = mentionsTfIdf[mention_index]  
@@ -649,9 +618,6 @@ def nelRankingSystem(dic_line):
             else:
                 closest_clean_entity_name = closest_clean_entity_name.lower()
                 closest_clean_mention_name = closest_clean_mention_name.lower()
-                #score2 = scoreLetterNgram(mention_name.lower(), i_dic["entity_name"].lower(), 2)            
-                #score3 = scoreLetterNgram(mention_name.lower(), i_dic["entity_name"].lower(), 3)
-                #score4 = scoreLetterNgram(mention_name.lower(), i_dic["entity_name"].lower(), 4)
                 score2 = scoreLetterNgram(closest_clean_mention_name, closest_clean_entity_name, 2)
                 score3 = scoreLetterNgram(closest_clean_mention_name, closest_clean_entity_name, 3)
                 score4 = scoreLetterNgram(closest_clean_mention_name, closest_clean_entity_name, 4)
@@ -712,6 +678,3 @@ print(writeFileNameSplit)
 writeFileName = writeFileNameSplit[0] + "-NEW-TYPES-02-04-18-1-OWT-Scores-" + writeFileNameSplit[1] 
 mentions_category_results.saveAsTextFile(writeFileName)
 
-
-
-#pdb.set_trace()
