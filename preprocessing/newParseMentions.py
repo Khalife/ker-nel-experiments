@@ -10,7 +10,7 @@ import re
 import unicodedata
 import string
 
-defaultDataFolder = "/home/khalife/ai-lab/data/"
+defaultDataFolder = sys.argv[1]
 years = ["2009", "2010"]
 year = years[0]
 sequences = ["training", "eval"]

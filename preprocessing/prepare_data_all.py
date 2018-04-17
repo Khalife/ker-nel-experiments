@@ -9,7 +9,6 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from nltk.corpus import stopwords
 import re
 
-#defaultDataFolder = "/home/khalife/ai-lab/data/LDC2015E19_TAC_KBP_English_Entity_Linking_Comprehensive_Training_and_Evaluation_Data_2009-2013/json/backup/"
 #category = sys.argv[1] 
 #kbFile = open(defaultDataFolder + "knowledgeBaseFile-CorrectTitle.json", "r")
 #kbFile = open("knowledgeBaseFile-Updated-2010.json", "r")
