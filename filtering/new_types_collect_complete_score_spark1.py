@@ -101,7 +101,7 @@ def scoreAcronym(str1, str2):
     #return float(len(FL1))/len(FL2)
 
 
-defaultDataFolder = "/home/khalife/ai-lab/data/LDC2015E19_TAC_KBP_English_Entity_Linking_Comprehensive_Training_and_Evaluation_Data_2009-2013/json/backup/"
+defaultDataFolder = sys.argv[1]
 
 id_list = []
 name_list = []
@@ -145,34 +145,11 @@ for line in kbFile:
     except:
         continue
     knowledgeBase.append(local_dic)
-#pdb.set_trace()
 
-    #knowledgeBase_categories[category] = knowledgeBase_category
-        #id_list.append(dic_line["entity_id"])
-        #name_list.append(dic_line["entity_name"])
-        #type_list.append(dic_line["entity_type"])
-        #text_list.append(dic_line["entity_text"])
-        
-#knowledgeBase_category = pandas.DataFrame.from_dict({"entity_id": id_list, "entity_name" : name_list, "entity_type" : type_list, "entity_text": text_list})
-#knowledgeBase_category = pandas.DataFrame.from_dict({"entity_id": id_list, "entity_name" : name_list, "entity_type" : type_list})
-#knowledgeBase = knowledgeBase.head(100)
 
 print("Compute TFIDF...")
 
 nb_max_features = 2000000
-#Vectorizer = joblib.load("tfidfVectorizer-" + str(nb_max_features) + "-2-"+ category + ".pkl")
-#DIC_KB_TFIDF = joblib.load("tfidfDic-" + str(nb_max_features) + "-2-" + category + ".pkl")
-
-#Vectorizer = sklearn.feature_extraction.text.TfidfVectorizer(max_features = nb_max_features)
-#M_KB_TFIDF_category = Vectorizer.fit_transform(text_list)
-#idfs_category = Vectorizer.idf_ 
-
-#np.savetxt("idfs-" + category + ".txt", idfs_category)
-#sp.save_npz("matrices_tfidf-" + category + ".npz", M_KB_TFIDF_category)
-
-
-
-
 
 
 DIC_KB_TFIDF = {}
@@ -199,35 +176,6 @@ matrix_kb = M_KB_TFIDF[indexes_kb_to_keep,:]
 
 print("TFIDF done")
 
-# Categories : "PER", "ORG", "GPE", "UKN"
-#categories = ["PER", "ORG", "GPE", "UKN"]
-#categories = ["PER"]
-#precision = {}
-#N_mean = {}
-#ranks = {}
-#write_rank_file = open("write_rank.txt", "w")
-
-def filterMentions(line, category):
-    dic_line = json.loads(line)
-    #mention_name = dic_line["mention_name"]
-    #mention_id = dic_line["mention_id"])
-    #mention_text = dic_line["mention_text"])
-    mention_gold_entity_id = dic_line["gold_entity_id"]
-    mention_gold_entity_type = dic_line["gold_entity_type"]
-    return ( mention_gold_entity_type == category ) and ( "NIL" not in mention_gold_entity_id ) #and ( len(mention_name) > 3)
-
-
-def filterError(line):
-    #try:
-    #   dic_line = json.loads(line)
-    #   return True
-    #except:
-    #   return False
-    return True
-
-
-def testPrint(line):
-    return type(line)#"ok"
 
 stop_words = stopwords.words('english')
 def processFullText(str1):
@@ -393,20 +341,6 @@ def longest_common_substring(s1, s2):
         #return s1[x_longest - longest: x_longest]
 
 
-def acronymScore(str1, str2):
-    capital_letters = "".join([l for l in str2 if l.isupper()])
-    first_words = str2.split()
-    first_letters = "".join([fw[0] for fw in first_words])
-    norm_nb_letters = float(len(str1))
-    total_letters = capital_letters
-    for letter in first_letters:
-        if letter not in capital_letters:
-            total_letters = total_letters + letter
-    
-    total_letters = total_letters[:int(norm_nb_letters)]
-    acronym_score = 1 - levenshtein(str1.lower(), total_letters.lower())/norm_nb_letters
-    return acronym_score
-
 def acronymScore1(str1, str2):
     capital_letters = "".join([l for l in str2 if l.isupper()])
     first_words = str2.split()
@@ -442,102 +376,9 @@ def longest_common_substring2(s1, s2):
     return longest, [x_longest_start, y_longest_start], x_longest
 
 
-def acronymScore2(str1, str2):
-    capital_letters = "".join([l for l in str2 if l.isupper()])
-    alpha = 1
-    alpha2 = 0 
-    beta = 0.98
-    gamma = 0.1
-    
-    #if len(capital_letters) > 1:
-    if 1:
-        first_words = str2.split()
-        first_letters = "".join([fw[0] for fw in first_words])
-        norm_nb_letters = alpha*min([len(str1), len(str2)]) + (1-alpha)*max([len(str1), len(str2)])
-
-        total_letters = capital_letters
-        for letter in first_letters:
-            if letter not in capital_letters:
-                total_letters = total_letters + letter
-        lcs1, ncs1, _ = longest_common_substring2(str1.lower(),total_letters.lower())
-        
-        if ncs1[0]*ncs1[1] == 1:
-            discount = 1
-        else:
-            pow1 = max([ncs1[0] - 1, 1])
-            pow2 = max([ncs1[1] - 1, 1])
-            if pow1 > 1:
-                pow1 = 4*pow1 - 6
-            if pow2 > 1:
-                pow2 = 4*pow2 - 6            
-
-            discount = beta**(pow1*pow2)
-
-        #lcs1 = lcs1/float(ncs1[0]*ncs1[1])
-        lcs1 = lcs1*discount
-
-        acronym_score = lcs1/max([1, norm_nb_letters])
-        return acronym_score
-
-    #else:
-        
-        #score1, _, _ = longest_common_substring2(str1.lower(), str2.lower())
-        #return score1/float(max([len(str1), len(str2)]))
-        #first_words = str2.split()
-        #first_letters = "".join([fw[0] for fw in first_words])
-        #total_letters = capital_letters
-        #norm_nb_letters = alpha2*min([len(str1), len(str2)]) + (1-alpha2)*max([len(str1), len(str2)])
-
-        #for letter in first_letters:
-        #    if letter not in capital_letters:
-        #        total_letters = total_letters + letter
-        #lcs1, ncs1, _ = longest_common_substring2(str1.lower(),total_letters.lower())
-
-        #if ncs1[0]*ncs1[1] == 1:
-        #    discount = 1
-        #else:
-        #    pow1 = max([ncs1[0] - 1, 1])
-        #    pow2 = max([ncs1[1] - 1, 1])
-        #    if pow1 > 1:
-        #        pow1 = 4*pow1 - 6
-        #    if pow2 > 1:
-        #        pow2 = 4*pow2 - 6
-
-        #    discount = beta**(pow1*pow2)
-
-        ##lcs1 = lcs1/float(ncs1[0]*ncs1[1])
-        #lcs1 = lcs1*discount
-        #acronym_score1 = lcs1/(norm_nb_letters+1)
-        #discount = 1
-        #index_decompose1 = ncs1[0]
-        #index_decompose2 = ncs1[1]
-        #acronym_scores = []
-        #while 1:
-
-        #    if index_decompose1  >=  len(str1) or index_decompose2  >= len(str2):
-        #        break
-        #    str1_ = str1[index_decompose1:].lower()
-        #    str2_ = str2[index_decompose2:].lower()
-        #    discount += 1
-        #    try:
-        #        next_index = str2_.index(str1_) + 1
-        #        acr_score = (gamma**discount)/(next_index*(norm_nb_letters+1))
-        #    except:
-        #        next_index = index_decompose2
-        #        acr_score = 0
-
-        #    acronym_scores.append(acr_score)
-        #    index_decompose1 += 1
-        #    index_decompose2 = next_index
-        #    acronym_score1 += acr_score
-
-        #return acronym_score1
-
-
 
 def unicodeName(name):
     #name_u = unicode(name, 'utf-8')
-    
     name_clean = unicodedata.normalize('NFD', name)
     name_clean = name_clean.encode('ascii', 'ignore')
     return name_clean
@@ -554,10 +395,6 @@ def nelRankingSystem(dic_line):
     mention_index = int(dic_line["mention_index"])
     M_mention_tfidf = mentionsTfIdf[mention_index]  
 
-
-    #if entityIdToType[mention_gold_entity_id] != mention_gold_entity_type:
-    #    entityIdToType[mention_gold_entity_id] = mention_gold_entity_type 
-     
     list_ranks_categories = {}
     nb_collect = 100
     first_order = False
@@ -575,24 +412,13 @@ def nelRankingSystem(dic_line):
     results_tfidf = matrix_kb.dot(M_mention_tfidf.T)
     for i_dic in knowledgeBase:
         index_kb += 1
-        #if index_kb % 100 == 0:
-        #    sys.stdout.write("\r line " + str(index_kb) + " on about " + str(len(knowledgeBase)))   
-        #    sys.stdout.flush()
-         
         context_score = results_tfidf[index_kb][0,0] 
-        #if mention_gold_entity_type == i_dic["entity_type"]:
-
-        #if i_dic["entity_id"] == "E0488986":
-        #    pdb.set_trace()
-        #else:
-        #    continue            
 
         if mention_gold_entity_type == entityIdToType[i_dic["entity_id"]]:
             #if mention_id == "EL3808":
             #    pdb.set_trace()
             _, acronym_test = acronymTest(mention_name, entityIdToMainType[mention_gold_entity_id])
             _, acronym_test_entity = acronymTest(i_dic["entity_name"], entityIdToMainType[mention_gold_entity_id])
-
             #closest_clean_entity_name = i_dic["entity_name"].split("_(")[0] 
             closest_clean_entity_name = i_dic["entity_name"]
             closest_clean_entity_name =  unicodeName(closest_clean_entity_name).replace("_", " ")
