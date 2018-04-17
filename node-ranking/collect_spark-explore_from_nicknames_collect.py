@@ -287,7 +287,13 @@ for nt in neighbors_type:
 
 
 #pdb.set_trace()
-data2010Folder = "/home/khalife/ai-lab/data/LDC2015E19_TAC_KBP_English_Entity_Linking_Comprehensive_Training_and_Evaluation_Data_2009-2013/json/backup/ORG/NEW_TESTS/MENTIONS_UPDATE/2010/"
+#data2010Folder = "/home/khalife/ai-lab/data/LDC2015E19_TAC_KBP_English_Entity_Linking_Comprehensive_Training_and_Evaluation_Data_2009-2013/json/backup/ORG/NEW_TESTS/MENTIONS_UPDATE/2010/"
+try:
+    data2010Folder = sys.argv[1]
+except Exception as e:
+    print(e)
+    print("Please provide a default data folder")
+
 entityUKNIndexToDegree = json.load(open(data2010Folder + "entityUKNIndexToDegree.json", "r"))
 #kbFile = open(data2010Folder + "knowledgeBaseFile-Updated-2010.json", "r")
 #entityIdToKBIndex = {}
