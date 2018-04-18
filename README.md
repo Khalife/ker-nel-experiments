@@ -59,7 +59,7 @@ The corresponding types mapping are the following On the following entity types 
 - T = "AdministrativeRegion", "Country", "RadioStation", "Road", "OfficeHolder", "MusicalArtist", "School", "BaseballPlayer", "MilitaryPerson", "Settlement", "Company", "University", "Building", "SoccerPlayer", "IceHockeyPlayer", "AmericanFootballPlayer", "Wrestler", "Politician", "Congressman", "Band"
 - otherwise. 
 
-With our notations, we have $\varphi phi[t][\t] = 1 and 0 otherwise $
+With our notations, we have $\varphi = 1 $
 
 
 
