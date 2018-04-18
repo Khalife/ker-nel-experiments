@@ -56,14 +56,14 @@ The type mapping function we used is equal to 1 for types
 As mentioned in our paper, we considered these types because they were most concerned by mis-identification, and enough training data were available for these types in TAC10-TRAIN and TAC14-TRAIN
 
 The corresponding types mapping are the following On the following entity types : 
-- T = "AdministrativeRegion", "Country", "RadioStation", "Road", "OfficeHolder", "MusicalArtist", "School", "BaseballPlayer", "MilitaryPerson", "Settlement", "Company", "University", "Building", "SoccerPlayer", "IceHockeyPlayer", "AmericanFootballPlayer", "Wrestler", "Politician", "Congressman", "Band"
-- otherwise. 
-
-With our notations, we have $\varphi = 1 $
-
+- "AdministrativeRegion", "Country", "RadioStation", "Road", "OfficeHolder", "MusicalArtist", "School", "BaseballPlayer", "MilitaryPerson", "Settlement", "Company", "University", "Building", "SoccerPlayer", "IceHockeyPlayer", "AmericanFootballPlayer", "Wrestler", "Politician", "Congressman", "Band"
+- On other ontology types, our type mapping function value is 0.
 
 
 b - TAC-KBP inconsistencies 
+
+We noticed an error on dataset 2010 where the type of 2 entities have been in contradiction with Wikipedia dump used for this challenge.
+For more details : mention with ID EL004107 with gold entity ID E0466642 which is presented as a person (PER) wheras it is a localization (GPE); and mention with ID EL004411 with gold entity ID E0793726 presented as a per- son (PER) wheras it is an organization (ORG). Since types are important for score computation, we con- sidered mention annotation as the ground truth and run experiments accordingly.
 
 c - Experiments 
 
