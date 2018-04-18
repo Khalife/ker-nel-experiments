@@ -43,13 +43,24 @@ We added an example of regression/classification training using these new entity
 
 # Comments
 
+We present here some comments for our experiments to make them reproducible.
+
 a - Type mapping function
 
 We considered a constant mapping function.
+The type mapping function we used is equal to 1 for types 
+- "City", "Settlement", "Company", "University", "OfficeHolder"
 
-The type mapping function we used is equal to 1 for type 'City' on the following entity types : 'AdministrativeRegion', 'Country', 'RadioStation', 'Road', 'OfficeHolder', 'MusicalArtist', 'School', 'BaseballPlayer', 'MilitaryPerson', 'Settlement', 'Company', 'University', 'Building', 'SoccerPlayer', 'IceHockeyPlayer', 'AmericanFootballPlayer', 'Wrestler', 'Politician', 'Congressman', 'Band', and 0 otherwise. 
-We also used graph mining with the same mapping function for entity types : "Settlement", "Company", "University", "OfficeHolder", because these types were most concerned by mis-identification, and enough training data were available for these types in TAC10-TRAIN and TAC14-TRAIN
+
+These types were most concerned by mis-identification, and enough training data were available for these types in TAC10-TRAIN and TAC14-TRAIN
+
+On the following entity types : 
+- "AdministrativeRegion", "Country", "RadioStation", "Road", "OfficeHolder", "MusicalArtist", "School", "BaseballPlayer", "MilitaryPerson", "Settlement", "Company", "University", "Building", "SoccerPlayer", "IceHockeyPlayer", "AmericanFootballPlayer", "Wrestler", "Politician", "Congressman", "Band"
+- otherwise. 
+
 
 b - TAC-KBP inconsistencies 
+
+c - Experiments 
 
 
