@@ -65,6 +65,6 @@ The corresponding types mapping are the following On the following entity types 
 We noticed an error on dataset 2010 where the type of 2 entities have been in contradiction with Wikipedia dump used for this challenge.
 For more details : mention with ID EL004107 with gold entity ID E0466642 which is presented as a person (PER) wheras it is a localization (GPE); and mention with ID EL004411 with gold entity ID E0793726 presented as a per- son (PER) wheras it is an organization (ORG). Since types are important for score computation, we con- sidered mention annotation as the ground truth and run experiments accordingly.
 
-c - Experiments 
+**c - Experiments**
 
 
