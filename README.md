@@ -1,4 +1,5 @@
 This repository is dedicated to research experiments for **Graph based named of entities**.
+Please find below our comments to make these experiments reproducible.
 
 These modules were conceived as part of a Named entity linking problem. There implementation here are relatively independant.
 
@@ -52,11 +53,14 @@ The type mapping function we used is equal to 1 for types
 - "City", "Settlement", "Company", "University", "OfficeHolder"
 
 
-These types were most concerned by mis-identification, and enough training data were available for these types in TAC10-TRAIN and TAC14-TRAIN
+As mentioned in our paper, we considered these types because they were most concerned by mis-identification, and enough training data were available for these types in TAC10-TRAIN and TAC14-TRAIN
 
-On the following entity types : 
-- "AdministrativeRegion", "Country", "RadioStation", "Road", "OfficeHolder", "MusicalArtist", "School", "BaseballPlayer", "MilitaryPerson", "Settlement", "Company", "University", "Building", "SoccerPlayer", "IceHockeyPlayer", "AmericanFootballPlayer", "Wrestler", "Politician", "Congressman", "Band"
+The corresponding types mapping are the following On the following entity types : 
+- T = "AdministrativeRegion", "Country", "RadioStation", "Road", "OfficeHolder", "MusicalArtist", "School", "BaseballPlayer", "MilitaryPerson", "Settlement", "Company", "University", "Building", "SoccerPlayer", "IceHockeyPlayer", "AmericanFootballPlayer", "Wrestler", "Politician", "Congressman", "Band"
 - otherwise. 
+
+With our notations, we have $\varphi phi[t][\t] = 1 and 0 otherwise $
+
 
 
 b - TAC-KBP inconsistencies 
