@@ -63,13 +63,9 @@ The corresponding types mapping are the following On the following entity types 
 **b - TAC-KBP inconsistencies (main types)**
 
 We noticed on NIST TAC-KBP 2010 dataset 2 entities type in contradiction with Wikipedia dump used for this challenge.
-For more details : mention with ID EL004107 with gold entity ID E0466642 which is presented as a person (PER) wheras it is a localization (GPE); and mention with ID EL004411 with gold entity ID E0793726 presented as a per- son (PER) wheras it is an organization (ORG). Since types are important for score computation, we con- sidered mention annotation as the ground truth and run experiments accordingly.
-
-
-
+For more details : mention with ID EL004107 with gold entity ID E0466642 which is presented as a person (PER) wheras it is a localization (GPE); and mention with ID EL004411 with gold entity ID E0793726 presented as a per- son (PER) wheras it is an organization (ORG). We considered mention annotation as the ground truth and run experiments accordingly, though these types are often replaced by fine-grained classification.
 
 **c - Experiments**
 
-- We noticed an error on dataset 2010 where the type of 2 entities have been in contradiction with Wikipedia dump used for this challenge.
-For more details : mention with ID EL004107 with gold entity ID E0466642 which is presented as a person (PER) wheras it is a localization (GPE); and mention with ID EL004411 with gold entity ID E0793726 presented as a per- son (PER) wheras it is an organization (ORG).
-Since types are important for score computation, we con- sidered mention annotation as the ground truth and run exper- iments accordingly.
+- Fine-grained ontology classification is achieved by joining DBPedia 2016. However, some titles have changed between 2009 and 2016 for important entities. For these, we manually annoted their ontology type. 
+
