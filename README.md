@@ -67,5 +67,5 @@ For more details : mention with ID EL004107 with gold entity ID E0466642 which i
 
 **c - Experiments**
 
-- Fine-grained ontology classification is achieved by joining DBPedia 2016. However, some titles have changed between 2009 and 2016 for important entities. For these, we manually annoted their ontology type. 
+- Fine-grained ontology classification is achieved by joining DBPedia 2016. Some titles have changed between 2009 and 2016. For a list of 15 entities , we manually annoted their ontology type with preprocessing/update-ontology.py 
 
