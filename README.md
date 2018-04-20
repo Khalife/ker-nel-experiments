@@ -1,6 +1,8 @@
 This repository is dedicated to research experiments for **Graph based named of entities**.
 Please find below our comments to make these experiments reproducible.
 
+In particular, we invite reviewers to refer to the comment section for details concerning our implementation for score features extraction.
+
 These modules were conceived as part of a Named entity linking problem. There implementation here are relatively independant.
 
 [Some of these modules use Spark, we are currently updating the code to provide a CPU version]
@@ -68,4 +70,6 @@ For more details : mention with ID EL004107 with gold entity ID E0466642 which i
 **c - Experiments**
 
 - Fine-grained ontology classification is achieved by joining DBPedia 2016. Some titles have changed between 2009 and 2016. For a list of 15 entities , we manually annoted their ontology type with preprocessing/update-ontology.py 
-
+- Score extraction features, implementation details
+    - ok1
+    - ok2
