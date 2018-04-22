@@ -3,7 +3,7 @@ Please find below our comments to make these experiments reproducible.
 
 In particular, we invite reviewers to refer to the comment section for details concerning our implementation for score features extraction.
 
-These modules were conceived as part of a Named entity linking problem. There implementation here are relatively independant.
+Though these modules were designed as one global routine for Named entity identification/linking problem, they are relatively independant. 
 
 [Some of these modules are compatible with Spark, please refer to comment section]
 
