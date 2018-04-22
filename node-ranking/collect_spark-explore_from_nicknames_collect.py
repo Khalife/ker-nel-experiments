@@ -11,45 +11,14 @@ from string_metrics import *
 from sklearn.feature_extraction.text import TfidfVectorizer
 import sys
 from igraph import *
-from pyspark import SparkContext, SQLContext
-from pyspark.conf import SparkConf
-import pyspark
-sc = SparkContext(appName="nel-system")
-sess = pyspark.sql.SparkSession.builder.appName("nel-system").getOrCreate()
 
-#{"mention_id" : mention_id, "mention_name" : mention_name, "gold_dic" : gold_dic, "gold_score" : gold_score, "prediction_ranks" : list_ranks[:10], "gold_rank" : predictio    n_rank}
-
-#ranks_file = open("newTestA-OWT-ScoresNelMentions-2009.json", "r")
-#ranks_file = open("SUBSAMPLES/GPE1-sample-10-500-JsonFileComplete-ORG-2009.json")
-#ranks_file = open("subMentionsGPE-OWT-ScoresNelMentions-2009.json", "r")
-CATEGORY = "GPE"
-YEAR = "2009"
-#ranks_file = open("sample-above-20-OWT-Scores-Complete-2009-" + category + "-UPDATE-NNIL.json", "r")
-#ranks_file = open("sample-ranks-above-10-JsonFileUpdate-" + CATEGORY + "-" + YEAR + ".jsonc", "r")
-#ranks_file = open("SUBSAMPLES/subMentions-above-500-JsonFileComplete-ORG-2009.json", "r")
-#ranks_file = open("mentions-OWT-Scores-Complete-2014-GPE-TRAINING-UPDATE-NNIL.jsonaa", "r")
-#ranks_filename = sys.argv[1]
-#input_alpha_level = sys.argv[2]
-#ranks_file = open(ranks_filename, "r")
-#ranks_file = sc.textFile(ranks_filename)
-
-#min_id_mention = int(sys.argv[1])
-#max_id_mention = int(sys.argv[2])
-#config = int(sys.argv[1])
-#
-#if config == 4:
-#    seed_indexes = [i for i in range(10)]
-#
-#if config == 5:
-#    seed_indexes = [i for i in range(5)] + [10, 20, 30, 50, 100]
-#
-#if config == 6:
-#    seed_indexes = [i for i in range(5)] + [10, 15, 20, 25, 30]
-#
-#if config == 7:
-#    seed_indexes = [i for i in range(5)] + [10, 15, 20, 30, 40]    
-
-seed_indexes = [i for i in range(10)]    
+############################## Spark #########################################
+#from pyspark import SparkContext, SQLContext
+#from pyspark.conf import SparkConf
+#import pyspark
+#sc = SparkContext(appName="nel-system")
+#sess = pyspark.sql.SparkSession.builder.appName("nel-system").getOrCreate()
+##############################################################################
 
 
 def generateData(line):
@@ -1110,41 +1079,26 @@ GPE_subtypes1["City"] = ['AdministrativeRegion', 'Country', 'RadioStation', 'Roa
 GPE_subtypes1["City"] = ['School', 'Politician', 'OfficeHolder', 'University', 'Country', 'Company', 'AmericanFootballPlayer', 'SoccerPlayer', 'RadioStation', 'Wrestler', 'Band', 'AdministrativeRegion', 'MilitaryPerson', 'MusicalArtist', 'Congressman', 'IceHockeyPlayer', 'Settlement', 'BaseballPlayer', 'Road'] # intersection gold and corrupted
 
 
-#mentions_city_id = [all_mentions_id[i] for i in range(len(all_mentions_id)) if entityIdToOntologyType[mentionToFeature[all_mentions_id[i]]["gold_entity_id"]] == "City"]
-
-#potential_mis_city_ids = []
-#for mci in mentions_city_id:
-#    mentionTopEntites = [me["entity_id"] for me in mentionToTopEntities[mci]]
-#    mentionGoldEntity = mentionToFeature[mci]["gold_entity_id"]
-#    if mentionGoldEntity in mentionTopEntites:
-#        if mentionTopEntites.index(mentionGoldEntity) == 0:
-#            potential_mis_city_ids.append(mci)
-
-#pdb.set_trace()
-#ok = returnNewScores(18, 0.3)
-#pdb.set_trace()
-#ok = finalReturn(0.5, ["City"])
-#pdb.set_trace()
-#neighbors_ok = [[ne for ne in G.neighbors(entityIdToIndex[mentionToFeature[k]["gold_entity_id"]]) if entityIndexToId[ne] in real_ids] for k in ok[3]]
-
-##### Spark debug #####
-#mention_mis_list = [mentionToFeature[mci] for mci in mentions_city_id]#[:20]
-#results_spark = []
-#for i in range(5):
-#    results_spark.append(reScore(mention_mis_list[i], 0.3))
-
-#ok = returnNewScores(all_mentions_id.index('EL013061'), 0.5)
-#pdb.set_trace()
-#################
-
-##### Spark #####
+######################################################### CPU #############################################################
 type_concerned = sys.argv[1]
 mentions_concerned_id = [all_mentions_id[i] for i in range(len(all_mentions_id)) if entityIdToOntologyType[mentionToFeature[all_mentions_id[i]]["gold_entity_id"]] == type_concerned]
 print(len(mentions_concerned_id))
-#nb_tasks = len(mentions_concerned_id)/2
 mention_mis_list = [mentionToFeature[mci] for mci in mentions_concerned_id]
-mention_mis_spark_list = sc.parallelize(mention_mis_list, 80)
-alpha_ = 0.5
-results_spark = mention_mis_spark_list.map(lambda x : reScore(x, alpha_))
-results_spark.saveAsTextFile("rescore_neighbors_collect_spark_" + type_concerned + ".json")
-#################
+results1 = []
+for i in range(len(mention_mis_list)):
+    results1.append(reScore(mention_mis_list[i], 0.5))
+
+pdb.set_trace()
+###########################################################################################################################
+
+######################################################### Spark ###########################################################
+#type_concerned = sys.argv[1]
+#mentions_concerned_id = [all_mentions_id[i] for i in range(len(all_mentions_id)) if entityIdToOntologyType[mentionToFeature[all_mentions_id[i]]["gold_entity_id"]] == type_concerned]
+#print(len(mentions_concerned_id))
+##nb_tasks = len(mentions_concerned_id)/2
+#mention_mis_list = [mentionToFeature[mci] for mci in mentions_concerned_id]
+#mention_mis_spark_list = sc.parallelize(mention_mis_list, 80)
+#alpha_ = 0.5
+#results_spark = mention_mis_spark_list.map(lambda x : reScore(x, alpha_))
+#results_spark.saveAsTextFile("rescore_neighbors_collect_spark_" + type_concerned + ".json")
+############################################################################################################################
