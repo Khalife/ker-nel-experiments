@@ -50,15 +50,19 @@ We present here some comments for our experiments to make them reproducible.
 
 **a - Spark compatibility**
 
-Two main scripts 
+
 -filtering/new_types_collect_complete_score_spark1.py 
 -node-ranking/collect_spark-explore_from_nicknames_collect.py
 
-- uncomment import headers 
-- comment CPU and uncomment Spark code blocks at the end of files
-- an example of spark command :
-spark-submit --master yarn --driver-memory 15g --num-executors 70 --executor-memory 5G --conf spark.local.dir=/home/usr/tmp collect_complete_score_spark1.py   
+Respectively entity filtering and graph-based scores extraction scripts are spark/hadoop-compatible.
 
+To use spark, you should :
+
+- uncomment spark import headers 
+- comment CPU and uncomment Spark code blocks at the end of files
+
+An example of pyspark command :
+spark-submit --master yarn --driver-memory 15g --num-executors 70 --executor-memory 5G --conf spark.local.dir=/home/usr/tmp collect_complete_score_spark1.py   
 
 
 **b - Type mapping function**
