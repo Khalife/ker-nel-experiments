@@ -23,14 +23,15 @@ from nltk.corpus import stopwords
 import operator
 import string
 punctuation = string.punctuation
-from pyspark import SparkContext, SQLContext
-from pyspark.conf import SparkConf
-import pyspark
-import unicodedata
-sc = SparkContext(appName="nel-system")
-sess = pyspark.sql.SparkSession.builder.appName("nel-system").getOrCreate()
-punctuation = string.punctuation
 
+################################## Spark ####################################
+#from pyspark import SparkContext, SQLContext
+#from pyspark.conf import SparkConf
+#import pyspark
+#import unicodedata
+#sc = SparkContext(appName="nel-system")
+#sess = pyspark.sql.SparkSession.builder.appName("nel-system").getOrCreate()
+#############################################################################
 
 nb_words_text = 50
 hidden_size = 300
@@ -482,25 +483,21 @@ print(len(knowledgeBase))
 print(mentionsTfIdf.shape)
 print(len([dv for dv in DIC_KB_TFIDF]))
 
-## CPU
-#mc = None
-#for me in mentions_category:
-#    if me["mention_id"] == "EL01313":
-#        mc = me 
+################################# CPU #######################################
+results1 = []
+for mc in mentions_category:
+    result1 = nelRankingSystem(mc)
+    results1.append(results1)
+print(write_file_name)
+pdb.set_trace()
+#############################################################################
+
+################################# Spark #####################################
+#mentions_category_spark = sc.parallelize(mentions_category, 200)
+#mentions_category_results =  mentions_category_spark.map(lambda line: nelRankingSystem(line))
 #
-##mc = mentions_category[0]
-##nelRankingSystem(mc, knowledgeBase, mentionsTfIdf, DIC_KB_TFIDF)
-#results1 = nelRankingSystem(mc)
-#print(write_file_name)
-#pdb.set_trace()
-
-## Spark
-
-mentions_category_spark = sc.parallelize(mentions_category, 200)
-mentions_category_results =  mentions_category_spark.map(lambda line: nelRankingSystem(line))
-
-writeFileNameSplit = write_file_name.split("JsonFile")
-print(writeFileNameSplit)
-writeFileName = writeFileNameSplit[0] + "-NEW-TYPES-02-04-18-1-OWT-Scores-" + writeFileNameSplit[1] 
-mentions_category_results.saveAsTextFile(writeFileName)
-
+#writeFileNameSplit = write_file_name.split("JsonFile")
+#print(writeFileNameSplit)
+#writeFileName = writeFileNameSplit[0] + "-NEW-TYPES-02-04-18-1-OWT-Scores-" + writeFileNameSplit[1] 
+#mentions_category_results.saveAsTextFile(writeFileName)
+#############################################################################
