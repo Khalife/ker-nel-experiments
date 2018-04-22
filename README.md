@@ -56,7 +56,9 @@ Two main scripts
 
 - uncomment import headers 
 - comment CPU and uncomment Spark code blocks at the end of files
-- an example of spark command is spark-submit --master yarn --driver-memory 15g --num-executors 70 --executor-memory 5G --conf spark.local.dir=/home/usr/tmp collect_complete_score_spark1.py   
+- an example of spark command :
+
+ spark-submit --master yarn --driver-memory 15g --num-executors 70 --executor-memory 5G --conf spark.local.dir=/home/usr/tmp collect_complete_score_spark1.py   
 
 
 
