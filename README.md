@@ -46,7 +46,7 @@ We added an example of regression/classification training using these new entity
 
 # Comments
 
-We present here some comments for our experiments to make them reproducible.
+For transparency and reproducibility:
 
 **a - Spark compatibility**
 
