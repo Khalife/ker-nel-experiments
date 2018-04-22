@@ -5,7 +5,7 @@ In particular, we invite reviewers to refer to the comment section for details c
 
 These modules were conceived as part of a Named entity linking problem. There implementation here are relatively independant.
 
-[Some of these modules use Spark, we are currently updating the code to provide a CPU version]
+[Some of these modules are compatible with Spark, please refer to comment section]
 
 # Dependencies  
 These experiments require
@@ -48,7 +48,19 @@ We added an example of regression/classification training using these new entity
 
 We present here some comments for our experiments to make them reproducible.
 
-**a - Type mapping function**
+**a - Spark compatibility**
+
+Two main scripts 
+-filtering/new_types_collect_complete_score_spark1.py 
+-node-ranking/collect_spark-explore_from_nicknames_collect.py
+
+- uncomment import headers 
+- comment CPU and uncomment Spark code blocks at the end of files
+- an example of spark command is spark-submit --master yarn --driver-memory 15g --num-executors 70 --executor-memory 5G --conf spark.local.dir=/home/usr/tmp collect_complete_score_spark1.py   
+
+
+
+**b - Type mapping function**
 
 We considered a constant mapping function.
 The type mapping function we used is equal to 1 for types 
@@ -62,12 +74,12 @@ The corresponding types mapping are the following On the following entity types 
 - On other ontology types, our type mapping function value is 0.
 
 
-**b - TAC-KBP inconsistencies (main types)**
+**c - TAC-KBP inconsistencies (main types)**
 
 We noticed on NIST TAC-KBP 2010 dataset 2 entities type in contradiction with Wikipedia dump used for this challenge.
 For more details : mention with ID EL004107 with gold entity ID E0466642 which is presented as a person (PER) wheras it is a localization (GPE); and mention with ID EL004411 with gold entity ID E0793726 presented as a per- son (PER) wheras it is an organization (ORG). We considered mention annotation as the ground truth and run experiments accordingly, though these types are often replaced by fine-grained classification.
 
-**c - Experiments**
+**d - Experiments**
 
 - Fine-grained ontology classification is achieved by joining DBPedia 2016. Some titles have changed between 2009 and 2016. For a list of 15 entities , we manually annoted their ontology type with preprocessing/update-ontology.py 
 - Score extraction features, implementation details
