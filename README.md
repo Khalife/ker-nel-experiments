@@ -88,6 +88,9 @@ For our experiments, ontology types are children of Person, Organization and Pla
 
 ## b - Graph based scores extraction
 
+The most important idea of our algorithm is the extraction of scores in the graph neighborhood of one entity node.
+We present the parameters and neighborhood score computation in details.
+
 **Type mapping function**
 
 We considered a constant mapping function.
@@ -104,10 +107,13 @@ The corresponding types mapping are the following On the following entity types 
 
 **Neighborhood definition**
 
-**Neighbor score computation**
+A neighborhood of a node entity is defined as his direct neighbors.
 
-The most important idea of our algorithm is the extraction of scores in the graph neighborhood of one entity node.
-However, there are several way to compute new scores.
+We made an exception consistent with our type mapping function.
+Indeed, for node entities for which ontology type is a city, and if there is no country in their neighborhood, we computed shortest path between countries nodes and the entity node and kept the closest node. (We first built the list of all countries nodes, so that it avoids to re-compute Breadth first search).
+
+
+**Neighbor score computation**
 
 In our experiments, we built a matrix EC containing cosine similarity scores between neighbors entity and a set of arbitrary "informative" entities (cf next subsection). Then, we computed the TF-IDF cosine similarity of the query context in a vector M. This vector M is decomposed along the basis of informative entities.
 
