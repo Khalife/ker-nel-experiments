@@ -82,8 +82,6 @@ Fine-grained ontology classification is achieved by joining DBPedia 2016. Some t
 
 **b - Graph based scores extraction**
 
-Score extraction features, implementation details
-
 *- Type mapping function*
 
 We considered a constant mapping function.
@@ -97,7 +95,7 @@ The corresponding types mapping are the following On the following entity types 
 - "AdministrativeRegion", "Country", "RadioStation", "Road", "OfficeHolder", "MusicalArtist", "School", "BaseballPlayer", "MilitaryPerson", "Settlement", "Company", "University", "Building", "SoccerPlayer", "IceHockeyPlayer", "AmericanFootballPlayer", "Wrestler", "Politician", "Congressman", "Band"
 - On other ontology types, our type mapping function value is 0.
 
-**b - Spark compatibility**
+**c - Spark compatibility**
 
 
 -filtering/new_types_collect_complete_score_spark1.py 
@@ -114,12 +112,8 @@ An example of pyspark command :
 spark-submit --master yarn --driver-memory 15g --num-executors 70 --executor-memory 5G --conf spark.local.dir=/home/usr/tmp collect_complete_score_spark1.py   
 
 
-
-
 **d - TAC-KBP inconsistencies (main types)**
 
 We noticed on NIST TAC-KBP 2010 dataset 2 entities type in contradiction with Wikipedia dump used for this challenge.
 For more details : mention with ID EL004107 with gold entity ID E0466642 which is presented as a person (PER) wheras it is a localization (GPE); and mention with ID EL004411 with gold entity ID E0793726 presented as a per- son (PER) wheras it is an organization (ORG). We considered mention annotation as the ground truth and run experiments accordingly, though these types are often replaced by fine-grained classification.
-
-**e - Experiments**
 
