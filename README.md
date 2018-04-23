@@ -30,11 +30,28 @@ These experiments require
 This module is used to :  
 - parse NIST TAC-KBP (2009 to 2014) datasets and build queries and knowledge base/graph dataset.
 - provide a fine-grained ontology entity classification using DBPedia 2016
+- compute TF-IDF matrices on the knowledge base 
 
 
 ## 2 - Filtering method [Uses Spark, CPU-version in development]
 
 This module provides a filtering algorithm to discard less similar entities to a given query. It allows to return a smaller set of entity candidates.
+Input must be in .json format, and can be generated with preprocessing module, following template :
+
+
+{"mention_name": "Cambridge", "mention_index": 2, "mention_id": "EL000634", "gold_entity_id": "E0272861"}
+
+Also,
+ 
+- Knowledge base in .json format
+- TF-IDF matrices in .npz format 
+- Entity id to ontology types dictionnary in json format
+
+must have been generated. 
+
+
+python new_types_collect_complete_score_spark1.py mentions_file.json 
+
 
 ## 3 - Graph mining for new score features and identification [Uses Spark, CPU-version in development]
  
@@ -42,6 +59,12 @@ KER-NEL (Knowledge graph exploration and node ranking for named entity linking) 
 Then, capitalizing on a filtering method to take as input a reduced set of entity candidates, it returns the most probable underlying entity to a given query. 
 We added an example of regression/classification training using these new entity features.
 
+To extract score features from, run
+python collect_spark-explore_from_nicknames_collect.py ontology_type
+
+Example :
+
+python collect_spark-explore_from_nicknames_collect.py City
 
 
 # Comments
