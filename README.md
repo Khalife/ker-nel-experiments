@@ -18,11 +18,13 @@ These experiments require
 
 # Routine
 
-- Parse NIST TAC-KBP Datasets
+- Parse NIST TAC-KBP Datasets, write .json files and knowledge graph (nodes and egdes in a text file) 
+- Create dictionnary entity id to ontology type using DBPedia
 - Generate TF-IDF sparse matrices files .npz (filtering/prepare_all_data.py)
 - Entity filtering
 - Graph features extraction with KER-NEL for train and test data (node-ranking/.py)
 - Node re-ranking with KER-NEL (node-ranking/try_rank.py)
+- Entity identification with supervised learning
 
 
 ## 1 - Preprocessing module
