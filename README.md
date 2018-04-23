@@ -35,7 +35,7 @@ This module is used to :
 
 
 
-## 2 - Filtering method [Uses Spark, CPU-version in development]
+## 2 - Filtering method [Hadoop/Spark compatible]
 
 This module provides a filtering algorithm to discard less similar entities to a given query. It allows to return a smaller set of entity candidates.
 Input must be in .json format, and can be generated with preprocessing module, following template :
@@ -55,7 +55,7 @@ must have been generated.
 python new_types_collect_complete_score_spark1.py mentions_file.json 
 
 
-## 3 - Graph mining for new score features and identification [Uses Spark, CPU-version in development]
+## 3 - Graph mining for new score features and identification [Hadoop/Spark compatible]
  
 KER-NEL (Knowledge graph exploration and node ranking for named entity linking) uses the knowledge graph to extract semantic information for a given entity node.  
 Then, capitalizing on a filtering method to take as input a reduced set of entity candidates, it returns the most probable underlying entity to a given query. 
