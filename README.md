@@ -20,7 +20,7 @@ These experiments require
 
 - Parse NIST TAC-KBP Datasets
 - Generate TF-IDF sparse matrices files .npz (filtering/prepare_all_data.py)
-- Filtering
+- Entity filtering
 - Graph features extraction with KER-NEL for train and test data (node-ranking/.py)
 - Node re-ranking with KER-NEL (node-ranking/try_rank.py)
 
@@ -30,7 +30,9 @@ These experiments require
 This module is used to :  
 - parse NIST TAC-KBP (2009 to 2014) datasets and build queries and knowledge base/graph dataset.
 - provide a fine-grained ontology entity classification using DBPedia 2016
-- compute TF-IDF matrices on the knowledge base 
+- compute TF-IDF matrices on the knowledge base, and apply on mentions datasets
+
+
 
 
 ## 2 - Filtering method [Uses Spark, CPU-version in development]
@@ -67,11 +69,35 @@ Example :
 python collect_spark-explore_from_nicknames_collect.py City
 
 
-# Comments
+# Detailed comments
 
 For transparency and reproducibility:
 
-**a - Spark compatibility**
+**a - Preprocessing and filtering**
+
+In our experiments on NIST TAC KBP datasets, TF-IDF matrix is computed on a subpart of the knowledge base, then applied on each mention dataset. 
+A mention index represent the corresponding row in TF-IDF matrices. These indexes have been computed on all mentions datasets (including NIL mentions)
+
+Fine-grained ontology classification is achieved by joining DBPedia 2016. Some titles have changed between 2009 and 2016. For a list of 15 entities , we manually annoted their ontology type with preprocessing/update-ontology.py 
+
+**b - Graph based scores extraction**
+
+Score extraction features, implementation details
+
+*- Type mapping function*
+
+We considered a constant mapping function.
+The type mapping function we used is equal to 1 for types 
+- "City", "Settlement", "Company", "University", "OfficeHolder"
+
+
+As mentioned in our paper, we considered these types because they were most concerned by mis-identification, and enough training data were available for these types in TAC10-TRAIN and TAC14-TRAIN
+
+The corresponding types mapping are the following On the following entity types : 
+- "AdministrativeRegion", "Country", "RadioStation", "Road", "OfficeHolder", "MusicalArtist", "School", "BaseballPlayer", "MilitaryPerson", "Settlement", "Company", "University", "Building", "SoccerPlayer", "IceHockeyPlayer", "AmericanFootballPlayer", "Wrestler", "Politician", "Congressman", "Band"
+- On other ontology types, our type mapping function value is 0.
+
+**b - Spark compatibility**
 
 
 -filtering/new_types_collect_complete_score_spark1.py 
@@ -88,26 +114,12 @@ An example of pyspark command :
 spark-submit --master yarn --driver-memory 15g --num-executors 70 --executor-memory 5G --conf spark.local.dir=/home/usr/tmp collect_complete_score_spark1.py   
 
 
-**b - Type mapping function**
-
-We considered a constant mapping function.
-The type mapping function we used is equal to 1 for types 
-- "City", "Settlement", "Company", "University", "OfficeHolder"
 
 
-As mentioned in our paper, we considered these types because they were most concerned by mis-identification, and enough training data were available for these types in TAC10-TRAIN and TAC14-TRAIN
-
-The corresponding types mapping are the following On the following entity types : 
-- "AdministrativeRegion", "Country", "RadioStation", "Road", "OfficeHolder", "MusicalArtist", "School", "BaseballPlayer", "MilitaryPerson", "Settlement", "Company", "University", "Building", "SoccerPlayer", "IceHockeyPlayer", "AmericanFootballPlayer", "Wrestler", "Politician", "Congressman", "Band"
-- On other ontology types, our type mapping function value is 0.
-
-
-**c - TAC-KBP inconsistencies (main types)**
+**d - TAC-KBP inconsistencies (main types)**
 
 We noticed on NIST TAC-KBP 2010 dataset 2 entities type in contradiction with Wikipedia dump used for this challenge.
 For more details : mention with ID EL004107 with gold entity ID E0466642 which is presented as a person (PER) wheras it is a localization (GPE); and mention with ID EL004411 with gold entity ID E0793726 presented as a per- son (PER) wheras it is an organization (ORG). We considered mention annotation as the ground truth and run experiments accordingly, though these types are often replaced by fine-grained classification.
 
-**d - Experiments**
+**e - Experiments**
 
-- Fine-grained ontology classification is achieved by joining DBPedia 2016. Some titles have changed between 2009 and 2016. For a list of 15 entities , we manually annoted their ontology type with preprocessing/update-ontology.py 
-- Score extraction features, implementation details
