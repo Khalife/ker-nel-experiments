@@ -72,7 +72,7 @@ python collect_spark-explore_from_nicknames_collect.py City
 # Detailed comments
 
 For transparency and reproducibility:
-
+## ok
 **a - Preprocessing and filtering**
 
 In our experiments on NIST TAC KBP datasets, TF-IDF matrix is computed on a subpart of the knowledge base, then applied on each mention dataset. 
