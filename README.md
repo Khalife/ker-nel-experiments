@@ -3,7 +3,7 @@ Please find below our comments to make these experiments reproducible.
 
 In particular, we invite reviewers to refer to the detailed comment section concerning our implementation of preprocessing, filtering and score features extraction.
 
-Though these modules were designed as one global routine for Named entity identification/linking problem, they are relatively independant. 
+These modules were designed as one global routine for Named entity identification/linking problem, they are relatively independant though. 
 
 [Some of these modules are compatible with Spark, please refer to comment section]
 
@@ -80,6 +80,12 @@ A mention index represent the corresponding row in TF-IDF matrices. These indexe
 
 Fine-grained ontology classification is achieved by joining DBPedia 2016. Some titles have changed between 2009 and 2016. For a list of 15 entities , we manually annoted their ontology type with preprocessing/update-ontology.py 
 
+** Ontology types **
+We refer to the ontology tree:
+http://mappings.dbpedia.org/server/ontology/classes/
+
+For our experiments, ontology types are children of Person, Organization and Place in the ontology tree, so that these are compatible with NIST Datasets annotations (PER, ORG, GPE).  
+
 ## b - Graph based scores extraction
 
 **Type mapping function**
@@ -95,11 +101,31 @@ The corresponding types mapping are the following On the following entity types 
 - "AdministrativeRegion", "Country", "RadioStation", "Road", "OfficeHolder", "MusicalArtist", "School", "BaseballPlayer", "MilitaryPerson", "Settlement", "Company", "University", "Building", "SoccerPlayer", "IceHockeyPlayer", "AmericanFootballPlayer", "Wrestler", "Politician", "Congressman", "Band"
 - On other ontology types, our type mapping function value is 0.
 
+
+**Neighborhood definition**
+
+**Neighbor score computation**
+
+The most important idea of our algorithm is the extraction of scores in the graph neighborhood of one entity node.
+However, there are several way to compute new scores.
+
+In our experiments, we built a matrix EC containing cosine similarity scores between neighbors entity and a set of arbitrary "informative" entities (cf next subsection). Then, we computed the TF-IDF cosine similarity of the query context in a vector M. This vector M is decomposed along the basis of informative entities.
+
+The final score corresponds to euclidian norm difference between vector M and column vectors of matrix EC.
+
+**Set of informative entities**
+
+
+**Number of nodes and types**
+
+
+
+
 ## c - Spark compatibility
 
 
--filtering/new_types_collect_complete_score_spark1.py 
--node-ranking/collect_spark-explore_from_nicknames_collect.py
+- filtering/new_types_collect_complete_score_spark1.py 
+- node-ranking/collect_spark-explore_from_nicknames_collect.py
 
 Respectively entity filtering and graph-based scores extraction scripts are spark/hadoop-compatible.
 
@@ -112,7 +138,7 @@ An example of pyspark command :
 spark-submit --master yarn --driver-memory 15g --num-executors 70 --executor-memory 5G --conf spark.local.dir=/home/usr/tmp collect_complete_score_spark1.py   
 
 
-##d - TAC-KBP inconsistencies (main types)
+## d - TAC-KBP inconsistencies (main types)
 
 We noticed on NIST TAC-KBP 2010 dataset 2 entities type in contradiction with Wikipedia dump used for this challenge.
 For more details : mention with ID EL004107 with gold entity ID E0466642 which is presented as a person (PER) wheras it is a localization (GPE); and mention with ID EL004411 with gold entity ID E0793726 presented as a per- son (PER) wheras it is an organization (ORG). We considered mention annotation as the ground truth and run experiments accordingly, though these types are often replaced by fine-grained classification.
