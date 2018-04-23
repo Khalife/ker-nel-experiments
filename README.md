@@ -1,7 +1,7 @@
 This repository is dedicated to research experiments for **Graph based named of entities**.
 Please find below our comments to make these experiments reproducible.
 
-In particular, we invite reviewers to refer to the comment section for details concerning our implementation for score features extraction.
+In particular, we invite reviewers to refer to the detailed comment section concerning our implementation of preprocessing, filtering and score features extraction.
 
 Though these modules were designed as one global routine for Named entity identification/linking problem, they are relatively independant. 
 
