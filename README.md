@@ -80,7 +80,7 @@ A mention index represent the corresponding row in TF-IDF matrices. These indexe
 
 Fine-grained ontology classification is achieved by joining DBPedia 2016. Some titles have changed between 2009 and 2016. For a list of 15 entities , we manually annoted their ontology type with preprocessing/update-ontology.py 
 
-** Ontology types **
+**Ontology types**
 We refer to the ontology tree:
 http://mappings.dbpedia.org/server/ontology/classes/
 
