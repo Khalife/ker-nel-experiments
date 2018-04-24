@@ -19,10 +19,7 @@ example = {u'E0503975': {'neighbors': [], 'score': 0.45657054936916297}, 'gold_i
 
 types = ['AdministrativeRegion', 'Country', 'RadioStation', 'Road', 'OfficeHolder', 'MusicalArtist', 'School', 'BaseballPlayer', 'MilitaryPerson', 'Settlement', 'Company', 'University', 'Building', 'SoccerPlayer', 'IceHockeyPlayer', 'AmericanFootballPlayer', 'Wrestler', 'Politician', 'Congressman', 'Band', 'Writer', 'Governor', 'TelevisionStation', 'Artist', 'Airport', 'HistoricPlace', 'BasketballPlayer', 'SoccerManager', 'Airline', 'ProtectedArea', 'MemberOfParliament', 'Senator', 'PoliticalParty', 'Boxer', 'Cricketer', 'MilitaryUnit', 'Town', 'TradeUnion', 'NascarDriver', 'Stadium', 'BritishRoyalty', 'TennisPlayer', 'Bridge', 'City', 'Judge', 'ComicsCreator', 'ShoppingMall', 'RugbyPlayer', 'Comedian', 'Mayor', 'GridironFootballPlayer', 'RecordLabel', 'President', 'Lake', 'Non-ProfitOrganisation', 'Museum', 'Station', 'Swimmer', 'SoccerClub', 'Model', 'GaelicGamesPlayer', 'Saint', 'PrimeMinister', 'ChristianBishop', 'GovernmentAgency', 'Island', 'Legislature', 'LawFirm', 'PlayboyPlaymate', 'RailwayStation', 'Philosopher', 'RacingDriver', 'SkiArea', 'Park', 'Economist', 'Gymnast', 'MartialArtist', 'Monarch', 'AustralianRulesFootballPlayer', 'Theatre', 'RailwayLine', 'River', 'Planet', 'Lighthouse', 'FigureSkater', 'Architect', 'Actor', 'ReligiousBuilding', 'PublicTransitSystem', 'HistoricBuilding', 'BusCompany', 'MilitaryStructure', 'LacrossePlayer', 'Mountain', 'ChessPlayer', 'CollegeCoach'][:20]
 
-#types = [types[0], types[1], "Town", "City", "Settlement"]
-
-nb_entities = 4 
-
+nb_entities = 6 
 
 def returnXData(dataFile_):
     X = []
@@ -166,8 +163,6 @@ from sklearn.ensemble import RandomForestRegressor
 results_gold = []
 
 for penal in [0.0001, 0.0005, 0.001, 0.01, 0.1, 0.5, 1, 2, 5, 10]:
-#for depth in range(2, 30):
-#for alpha_ in [0.5, 1, 1.5, 2, 2.5, 3, 3.5, 5, 10]:
 #for n_estimator in [5, 10, 50, 100, 200]:
     #predictor = 1
     #regr_2 = DecisionTreeRegressor(max_depth=depth)
@@ -231,120 +226,4 @@ for penal in [0.0001, 0.0005, 0.001, 0.01, 0.1, 0.5, 1, 2, 5, 10]:
 
 pdb.set_trace()
 
-#By batch
-#grid_results_alpha = []
-#grid_results_max = []
-#grid_results_strict_max = []
-#for j in range(len(Y_test)/(10*nb_entities)):
-##for j in range(len(Y_test)/nb_entities):
-#    width = 10*nb_entities
-#    #width = 1*nb_entities
-#    if j == 0:
-#        index_test = [k for k in range(width*j,width*(j+1))]
-#        index_train = [k for k in range(width*(j+1),len(Y_test))]
-#    elif j == ( len(Y_test)/nb_entities - 1):
-#        index_test = [k for k in range(width*j, len(Y_test))]
-#        index_train = [k for k in range(width*j)]
-#    else:
-#        index_train = [k for k in range(width*j)] + [k for k in range(width*(j+1),len(Y_test))]
-#        index_test = [k for k in range(width*j, width*(j+1))] 
-#
-#    #if j == 15:
-#    #    pdb.set_trace()
-#    YY_test = [Y_test[i_te] for i_te in index_test]
-#    Y_train = [Y_test[i_tr] for i_tr in index_train] # self train
-#    #Y_train = [Y[i_tr] for i_tr in index_train]
-#    XX_test = [X_test[i_te] for i_te in index_test]
-#    XX_train = [X_test[i_tr] for i_tr in index_train] # self train
-#    #XX_train = [XX[i_tr] for i_tr in index_train]
-#
-#    grid_results_alpha_ = []
-#    grid_results_max_ = [] 
-#    grid_results_strict_max_ = []
-#
-#    for depth in range(10, 30):
-#        #regr_2 = DecisionTreeRegressor(max_depth=depth)
-#        #regr_2.fit(XX_train, Y_train)
-#        #results = regr_2.predict(XX_test).tolist()
-#        
-#        predictor = 2
-#        regr_2 = Ridge(alpha=1.0)
-#        regr_2.fit(XX_train, Y_train)
-#        results = regr_2.predict(XX_test).tolist()
-#    
-#        def returnAlphaDecision(alpha):
-#            corrupted = [sum([int(res_ < alpha) for res_ in results[(nb_entities*i+1):(nb_entities*(i+1))]]) for i in range(len(YY_test)/nb_entities)] 
-#            gold = [int(results[nb_entities*i] >= alpha) for i in range(len(YY_test)/nb_entities)]
-#            return len([co + go for co, go in zip(corrupted, gold) if co + go == nb_entities])
-#      
-#        def returnMaxDecision():
-#            result_gold = [int(np.argmax(results[(nb_entities*i+1):(nb_entities*(i+1))]) == 0) for i in range(len(YY_test)/nb_entities)] 
-#            return sum(result_gold)
-#
-#        #print("alpha decision : ")
-#        #print([returnAlphaDecision(alpha) for alpha in np.arange(0,1, 0.05)])
-#        #print("max decision : ")
-#        #print(returnMaxDecision())
-#   
-#        def returnStrictMaxDecision():
-#            result_gold = 0
-#            for i in range(len(YY_test)/nb_entities):                                                                                                                          
-#                if predictor == 1:
-#                    if len([res for res in results[(nb_entities*i):(nb_entities*(i+1))] if res == 1.0]) == 1:
-#                        if np.argmax(results[(nb_entities*i):(nb_entities*(i+1))]) == 0:
-#                            result_gold += 1
-#                    else:
-#                        if depth == 29:
-#                            print(results[(nb_entities*i):(nb_entities*(i+1))])
-#                else:
-#                    if np.argmax(results[(nb_entities*i):(nb_entities*(i+1))][:4]) == 0:
-#                        result_gold += 1
-#                    else:
-#                        print(results[(nb_entities*i):(nb_entities*(i+1))])
-#            return result_gold 
-#            #result_gold = sum([int( np.argwhere(results[(nb_entities*i+1):(nb_entities*(i+1))]) == np.amax(results[(nb_entities*i+1):(nb_entities*(i+1))]) == 0) for i in range(len(Y_test)/nb_entities)])
-# 
-# 
-#        grid_results_alpha_.append(np.max([returnAlphaDecision(alpha) for alpha in np.arange(0,1, 0.05)]))
-#        grid_results_max_.append(returnMaxDecision())
-#        grid_results_strict_max_.append(returnStrictMaxDecision())
-#
-#    grid_results_alpha.append(np.max(grid_results_alpha_))
-#    grid_results_max.append(np.max(grid_results_max_))
-#    grid_results_strict_max.append(np.max(grid_results_strict_max_))
-#
-#pdb.set_trace()
-#from sklearn.tree import _tree
-#
-#
-#def tree_to_code(tree, feature_names):
-#    tree_ = tree.tree_
-#    feature_name = [
-#        feature_names[i] if i != _tree.TREE_UNDEFINED else "undefined!"
-#        for i in tree_.feature
-#    ]
-#    print "def tree({}):".format(", ".join(feature_names))
-#
-#    def recurse(node, depth):
-#        indent = "  " * depth
-#        if tree_.feature[node] != _tree.TREE_UNDEFINED:
-#            name = feature_name[node]
-#            threshold = tree_.threshold[node]
-#            print "{}if {} <= {}:".format(indent, name, threshold)
-#            recurse(tree_.children_left[node], depth + 1)
-#            print "{}else:  # if {} > {}".format(indent, name, threshold)
-#            recurse(tree_.children_right[node], depth + 1)
-#        else:
-#            print "{}return {}".format(indent, tree_.value[node])
-#
-#    recurse(0, 1)
-#
-#
-#
-#
-#pdb.set_trace()
-#
-#
-#
-#                
-#tree.export_graphviz(regr_2, out_file='tree_el.dot') 
+

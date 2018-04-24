@@ -119,17 +119,20 @@ Indeed, for node entities for which ontology type is a city, and if there is no 
 
 **Neighbor score computation**
 
-In our experiments, we built a matrix EC containing cosine similarity scores between neighbors entity and a set of arbitrary "informative" entities (cf next subsection).
+In our experiments, for each query, we built a matrix EC containing cosine similarity scores between neighbors entity and a set of arbitrary "informative" entities (cf next subsection).
 EC has shape (N x E).
 Then, we computed the TF-IDF cosine similarity of the query context with informative entities in a vector M, shape (E x 1). 
 The final scores vector is computed with euclidian norm difference between vector M and column vectors of matrix EC.
 
-However, this returns a variable size vector, depending on the degree of the entity node.
+However, this returns a variable size vector N, depending on the degree of the entity node.
 To set a constant size we consider the following procedure:
 
-- reorder by type using type mapping function (cf subsection Type Mapping function) 
+- order scores using type mapping function (cf subsection Type mapping function) 
 - if there are multiple neighbors for one type, compute minimum over the scores for these type
 - if there is no neighbor for one type, set 0.
+
+This yields a vector of constant size T since we considered a constant type mapping function.
+The final scores vector (size T+1) is composed of the filtering score of the entity, and new neighborhood scores.
 
 
 **Set of informative entities**
@@ -144,6 +147,10 @@ It is composed of a list of entities:
 
 Finally, all of these parameters can possibly be improved. (Informative set of entities, type mapping function, number of final candidates).
 We did not achieve full parametere optimization, to avoid over-fitting on NIST Datasets (we tried a dozen of configuration), but kept a configuration that was relatively performant. 
+
+**Supervised learning for named entity identification**
+
+We tried basic classifiers and regression models. Using scikit-learn, we finally kept logistic regression (node-ranking/try_rank.py) with penalization parameter equal to 0.0001 and class_weight = "balanced".
 
 
 ## c - Spark compatibility
