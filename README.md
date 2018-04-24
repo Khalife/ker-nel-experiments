@@ -53,7 +53,7 @@ Also,
 
 must have been generated. 
 
-Example:
+*Example:*
 
 python new_types_collect_complete_score_spark1.py mentions_file.json 
 
@@ -119,15 +119,29 @@ Indeed, for node entities for which ontology type is a city, and if there is no 
 
 **Neighbor score computation**
 
-In our experiments, we built a matrix EC containing cosine similarity scores between neighbors entity and a set of arbitrary "informative" entities (cf next subsection). Then, we computed the TF-IDF cosine similarity of the query context in a vector M. This vector M is decomposed along the basis of informative entities.
+In our experiments, we built a matrix EC containing cosine similarity scores between neighbors entity and a set of arbitrary "informative" entities (cf next subsection).
+EC has shape (N x E).
+Then, we computed the TF-IDF cosine similarity of the query context with informative entities in a vector M, shape (E x 1). 
+The final scores vector is computed with euclidian norm difference between vector M and column vectors of matrix EC.
 
-The final score corresponds to euclidian norm difference between vector M and column vectors of matrix EC.
+However, this returns a variable size vector, depending on the degree of the entity node.
+To set a constant size we consider the following procedure:
+
+- reorder by type using type mapping function (cf subsection Type Mapping function) 
+- if there are multiple neighbors for one type, compute minimum over the scores for these type
+- if there is no neighbor for one type, set 0.
+
 
 **Set of informative entities**
 
+This set of informative entities has been chosen through our experiments (called "real_ids" in node_ranking/collect_spark-explore_from_nicknames_collect.py).
+It is composed of a list of entities:
 
-**Number of nodes and types**
+- Entities of type "Settlement"
+- Entities of type "AdministrativeRegion"
+- A subset of Entities of type "Country"
 
+It can be improved, as type mapping function.
 
 
 
