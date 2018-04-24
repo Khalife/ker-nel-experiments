@@ -438,69 +438,14 @@ def score_name(mention_name, entity_name):
     return name_score
 
 
-#GPE_subtypes1 = ['Region', 'Settlement', 'City', 'Capital', 'CapitalOfRegion', 'CityDistrict', 'HistoricalSettlement', 'Town', 'Village', 'State', 'AdministrativeRegion', 'Country']
-#GPE_subtypes1 = ['Region', 'City', 'Capital', 'CapitalOfRegion', 'CityDistrict', 'HistoricalSettlement', 'Town', 'Village', 'State', 'AdministrativeRegion', 'Country']
-#GPE_subtypes1 = ['Country']
-
 gold_types = ['BusCompany', 'ChessPlayer', 'ORG', 'AdministrativeRegion', 'Settlement', 'TennisPlayer', 'Town', 'PER', 'Politician', 'PoliticalParty', 'Airline', 'Band', 'Writer', 'PublicTransitSystem', 'Lake', 'AmericanFootballPlayer', 'Village', 'Actor', 'Comedian', 'University', 'OfficeHolder', 'TradeUnion', 'President', 'GPE', 'Governor', 'Country', 'SoccerClub', 'MilitaryUnit', 'MilitaryPerson', 'Non-ProfitOrganisation', 'Senator', 'Legislature', 'TelevisionStation', 'City', 'GovernmentAgency', 'BroadcastNetwork', 'Company', 'MusicalArtist', 'Model', 'BaseballPlayer', 'RadioStation', 'Congressman']
-
-GPE_subtypes1 = {}
-for gold_type in gold_types:
-    GPE_subtypes1[gold_type] = ['City', 'Country']  
 
 
 mis_ontologies = ['GovernmentAgency', 'MusicalArtist', 'AdministrativeRegion', 'Scientist', 'Non-ProfitOrganisation', 'Newspaper', 'Newspaper', 'ORG', 'PoliticalParty', 'City', 'Judge', 'GovernmentAgency', 'Company', 'ORG', 'Actor', 'Actor', 'GeopoliticalOrganisation', 'Newspaper', 'Company', 'PlayboyPlaymate', 'Hospital', 'Country', 'School', 'AmericanFootballPlayer']
 
-for mo in mis_ontologies:
-    GPE_subtypes1[mo] = ['City', 'Country']
-
-
-GPE_subtypes1['City'] = ['Region', 'Town', 'Village', 'State', 'AdministrativeRegion', 'Country']
-#GPE_subtypes1['City'] = ['AdministrativeRegion']
-GPE_subtypes1['Settlement'] = ['GovernmentAgency'] + GPE_subtypes1['City']
-GPE_subtypes1['TradeUnion'] = ['Country']
-GPE_subtypes1['Legislature'] = ['Region', 'Town', 'Village', 'State', 'AdministrativeRegion', 'Country']
-GPE_subtypes1['University'] = ['Region', 'Town', 'Village', 'State', 'AdministrativeRegion', 'Country', 'City']
-GPE_subtypes1['Country'] = ['Region', 'Town', 'Village', 'State', 'AdministrativeRegion', 'Country']
-GPE_subtypes1['Company'] = ['Country', 'Company', 'PER', 'MusicalArtist', 'Village', 'ORG', 'Settlement']
-GPE_subtypes1['AdministrativeRegion'] = ['Settlement']
-#GPE_subtypes1['AdministrativeRegion'] = ['Settlement', 'City', 'School', 'RadioStation', 'ORG', 'University', 'Town', 'Company', 'OfficeHolder', 'MusicalArtist', 'BaseballPlayer', 'PER']
-#GPE_subtypes1['University'] = ['ORG', 'OfficeHolder', 'Judge', 'Congressman', 'AmericanFootballPlayer', 'Economist', 'PER']
-
-GPE_subtypes1['Town'] = ['ORG', 'OfficeHolder', 'PER', 'Judge', 'AmericanFootballPlayer', 'SportsTeam', 'GPE']
-
-GPE_subtypes1['BaseballPlayer'] = ['GPE']
-
-GPE_subtypes1['Country'] = ['Town', 'PER', 'City', 'Settlement', 'MilitaryPerson', 'ORG', 'Village', 'MilitaryUnit', 'School', 'University', 'GPE', 'Company', 'OfficeHolder', 'MusicalArtist', 'Artist', 'SoccerPlayer', 'IceHockeyPlayer', 'Boxer', 'Writer', 'Wrestler', 'RecordLabel', 'SoccerManager', 'Comedian', 'Congressman', 'Politician', 'TradeUnion', 'TelevisionStation', 'TennisPlayer', 'Senator', 'Swimmer', 'ComicsCreator', 'Governor', 'Airline', 'Non-ProfitOrganisation', 'Economist', 'BroadcastNetwork', 'Model', 'RacingDriver', 'BaseballLeague', 'ProtectedArea', 'Judge', 'President', 'Mayor', 'IceHockeyLeague', 'SoccerLeague', 'BasketballLeague', 'BaseballPlayer', 'MartialArtist', 'RadioStation', 'Country', 'NascarDriver', 'AdministrativeRegion']
-
-#('GovernmentAgency', 5), ('BaseballPlayer', 4), ('Country', 4), ('TradeUnion', 4), ('Legislature', 4)
-
-
-# TradeUnion {u'Country': 1} 
-
-# Country [(u'Town', 14761), (u'PER', 9797), (u'City', 9450), (u'Settlement', 7296), (u'MilitaryPerson', 3190), (u'ORG', 3146), (u'Village', 2614), (u'MilitaryUnit', 2223), (u'School', 1674), (u'University', 1290), (u'GPE', 943), (u'Company', 714), (u'OfficeHolder', 670), (u'MusicalArtist', 629), (u'Artist', 555), (u'SoccerPlayer', 349), (u'IceHockeyPlayer', 317), (u'Boxer', 246), (u'Writer', 208), (u'Wrestler', 195), (u'RecordLabel', 191), (u'SoccerManager', 171), (u'Comedian', 163), (u'Congressman', 155), (u'Politician', 145), (u'TradeUnion', 137), (u'TelevisionStation', 130), (u'TennisPlayer', 124), (u'Senator', 104), (u'Swimmer', 88), (u'ComicsCreator', 87), (u'Governor', 71), (u'Airline', 65), (u'Non-ProfitOrganisation', 64), (u'Economist', 56), (u'BroadcastNetwork', 56), (u'Model', 55), (u'RacingDriver', 55), (u'BaseballLeague', 47), (u'ProtectedArea', 42), (u'Judge', 32), (u'President', 27), (u'Mayor', 27), (u'IceHockeyLeague', 24), (u'SoccerLeague', 23), (u'BasketballLeague', 23), (u'BaseballPlayer', 21), (u'MartialArtist', 16), (u'RadioStation', 14), (u'Country', 14), (u'NascarDriver', 14), (u'AdministrativeRegion', 13), (u'LacrossePlayer', 13), (u'AmericanFootballLeague', 12), (u'Murderer', 11), (u'MemberOfParliament', 9), (u'SportsLeague', 8), (u'AmericanFootballPlayer', 8), (u'Philosopher', 7), (u'Publisher', 7), (u'BritishRoyalty', 7), (u'CollegeCoach', 7), (u'Actor', 6), (u'Building', 6), (u'InlineHockeyLeague', 5), (u'PlayboyPlaymate', 5), (u'FormulaOneRacer', 5), (u'AmateurBoxer', 5), (u'Saint', 5), (u'PoliticalParty', 4), (u'GovernmentAgency', 4), (u'AutoRacingLeague', 4), (u'GridironFootballPlayer', 4), (u'LacrosseLeague', 4), (u'Cricketer', 3), (u'AdultActor', 3), (u'Library', 3), (u'RugbyLeague', 3), (u'ChristianBishop', 3), (u'VideogamesLeague', 3), (u'River', 3), (u'Medician', 2), (u'HistoricPlace', 2), (u'GolfPlayer', 2), (u'BasketballPlayer', 2), (u'TennisLeague', 2), (u'RugbyPlayer', 2), (u'VolleyballLeague', 2), (u'SoccerClub', 1), (u'CricketLeague', 1), (u'Bodybuilder', 1), (u'Legislature', 1), (u'PrimeMinister', 1), (u'MotorcycleRider', 1), (u'Scientist', 1), (u'CricketTeam', 1), (u'TelevisionHost', 1), (u'Curler', 1), (u'Ambassador', 1), (u'TableTennisPlayer', 1), (u'GeopoliticalOrganisation', 1), (u'Island', 1), (u'LawFirm', 1)]
-
-
-
-# BaseballPlayer  {u'GPE': 1}
-
-#'GovernmentAgency' {u'GovernmentAgency': 2, u'Settlement': 2, u'OfficeHolder': 2}
-
-
-# Town 
-#{u'City': 1, u'Writer': 1, u'Artist': 1, u'SportsTeam': 1, u'GPE': 1, u'University': 1, u'CollegeCoach': 1, u'AmericanFootballPlayer': 18, u'PER': 114, u'Mayor': 1, u'LacrossePlayer': 4, u'Congressman': 2, u'Philosopher': 1, u'OfficeHolder': 9, u'Country': 1, u'Judge': 3, u'ORG': 9, u'Economist': 2, u'SoccerPlayer': 1}
-
-#Company {u'City': 1, u'CollegeCoach': 1, u'GPE': 1, u'Artist': 2, u'AmericanFootballPlayer': 21, u'University': 2, u'Writer': 1, u'SportsTeam': 1, u'PER': 214, u'LacrossePlayer': 8, u'Philosopher': 2, u'OfficeHolder': 17, u'Country': 1, u'Judge': 5, u'Congressman': 4, u'Economist': 4, u'Mayor': 1, u'SoccerPlayer': 2, u'ORG': 16}
-
-
-#['GovernmentAgency', 'City', 'Wrestler', 'Swimmer', 'Murderer', 'MotorcycleRider', 'Writer', 'Non-ProfitOrganisation', 'PER', 'TradeUnion', 'MilitaryPerson', 'Saint', 'Congressman', 'Politician', 'InlineHockeyLeague', 'MartialArtist', 'TennisPlayer', u'RecordLabel', u'Cricketer', u'Company', u'NascarDriver', u'BroadcastNetwork', u'Boxer', u'MusicalArtist', u'Judge', u'President', u'IceHockeyPlayer', u'LawFirm', u'Actor', u'Town', u'School', u'EducationalInstitution', u'ProtectedArea', u'BritishRoyalty', u'Artist', u'GPE', u'University', u'SoccerManager', u'AmericanFootballPlayer', u'Governor', u'MilitaryUnit', u'Architect', u'Philosopher', u'OfficeHolder', u'Senator', u'Model', u'RadioStation', u'RacingDriver', u'Airline', u'Legislature', u'SoccerClub', u'TelevisionStation', u'SoccerPlayer', u'Mayor', u'Comedian', u'Village', u'ORG', 'Settlement', 'Economist', 'BaseballPlayer', 'ComicsCreator']
-
-#with open("ALL-TYPES.txt", "r") as f:
-#    GPE_subtypes1 = f.readline().strip().split(", ")
 entityIdToName = json.load(open("../entityIdToIndexName.json", "r"))
 typeToThreshold = json.load(open("../typeToThreshold.json", "r"))
 
-#pdb.set_trace()
 import re
 rx = re.compile(r"[\W]")
 def reScore(mention_mis_, alpha): #, neighbors_id_):
@@ -738,9 +683,8 @@ def reScore(mention_mis_, alpha): #, neighbors_id_):
                             #except:
                             #    pdb.set_trace()    
                         
-                            ######################### Sum ###############################
+                            ############################################################
 
-                            # Compute min over all neighbors and keep lowest#
                             for i_n in range(EC.shape[0]):
                                 new_temp_score_total = EC[i_n].data.dot(EC[i_n].data)
                                 #cross_product = 2.*[x[0,0] for x in mention_country_and_co_entity_comparison][i_n] 
@@ -762,106 +706,7 @@ def reScore(mention_mis_, alpha): #, neighbors_id_):
                                 new_temp_scores_total.append(0.5)
 
                         new_temp_scores_total_main.append(new_temp_scores_total)
-                        #pdb.set_trace() 
-                    
-                    #pdb.set_trace()
-                    #new_temp_scores_total = new_temp_scores_total_main[i]
 
-                    # Neighbors selection
-                    # a. type selection
-                    #pdb.set_trace()
-                    #neighbors_type_selection = set(neighbors_type[0]).intersection(*neighbors_type[:1])
-                    #neighbors_type_selection = list(neighbors_type_selection) + ["Country", "Settlement", "Town", "AdministrativeRegion"]
-                    #new_temp_scores_total  = [ntst for ntst, nt in zip(new_temp_scores_total, neighbors_type[i]) if nt in neighbors_type_selection] 
-                     
-                    # b. neighbors selection
-                    #new_temp_scores_total_sorted = np.sort(new_temp_scores_total).tolist()[:min([nb_max_neighbors, len(new_temp_scores_total)])]
-                    #new_temp_scores_total = new_temp_scores_total_sorted 
-
-                    # Percentile selection
-                    #threshold = np.percentile(new_temp_scores_total, percentile_neighbors)
-                    #new_temp_scores_total = [ntst for ntst in new_temp_scores_total if ntst <= threshold]         
-            
-                    #alpha_level = input_alpha_level 
-                    #alpha_percentile = np.percentile(new_temp_scores_total, alpha_level)                
-                    
-                    #new_temp_scores_total_filtered = [ntst for ntst in new_temp_scores_total if ntst <= alpha_percentile]
-                    #if len(new_temp_scores_total_sorted) < len(new_temp_scores_total_filtered):
-                    #    new_temp_scores_total = new_temp_scores_total_filtered
-                    #else:
-                    #    assert(1)
-
-                    #pdb.set_trace()
-                    #offset = -min([0, min(new_temp_scores_total)])
-                    #new_temp_scores_total = [ntst + offset for ntst in new_temp_scores_total] # get positive scores
-                    #normalization_factor = float(max([1, EC.shape[0]]))
-                    #normalization_factor = float(max([1, len(new_temp_scores_total)]))
-                    #original_modified_degree = EC.shape[0]
-                    #score_total = (np.log(i+2)/normalization_factor)*sum(new_temp_scores_total)
-                    #score_total = (1/normalization_factor)*sum(new_temp_scores_total)
-                    #log_factor = np.log(5+i)/np.log(5)
-                    #log_factor = 1
-                    #score_total = (log_factor/normalization_factor)*sum(new_temp_scores_total)
-                    
-                    #new_scores_total.append(score_total)
-                    #################################################
-
-                #max_new = max(new_scores_total)                                                                                                   
-                #pdb.set_trace()
-                #for i in range(7):
-                #    top_score = top_scores[i]
-                #    final_score = alpha*new_scores_total[i]/(max_new*2) - (1-alpha)*top_score/4.
-                #    scores_total.append([new_scores_total[i]/(max_new), top_score, final_score])
-                #                                                                                                                                  
-                #                                                                                                                                  
-                #if len(no_neighbor_candidate) > 0:
-                #    #pdb.set_trace()
-                #    no_neighbor_value = np.percentile([scores_total[i][0] for i in range(len(scores_total)) if i not in no_neighbor_candidate],7)
-                #    for i in no_neighbor_candidate:
-                #        scores_total[i][0] = no_neighbor_value
-                #        final_score = alpha*scores_total[i][0]/2. - (1-alpha)*top_scores[i]/4.
-                #        scores_total[i][2] = final_score 
-
-                #argmin_s_tau = np.argmin([sc[2] for sc in scores_total])
-                #argmins_s_tau.append(argmin_s_tau)
-
-                #############################################################
-
-                ######################## Max ################################
-                #new_score_total_ = []
-                #for i_n in range(EC.shape[0]):
-                #    new_score_total_.append(EC[i_n].data.dot(EC[i_n].data) - 2*mention_country_and_co_entity_comparison[i_n][0,0])
-
-                #if len(new_score_total_) == 0:
-                #    if i  == 0:
-                #        no_neighbor_candidate.append(i)
-                #        new_score_total_ = 0 
-                #    else:
-                #        new_score_total = M0.data.dot(M0.data)
-    
-                #else:
-                #    new_score_total_ = min(new_score_total_)
-                #    new_score_total_ += M0.data.dot(M0.data)
-
-                #new_score_total = new_score_total_
-                #score_total = new_score_total
-                #new_scores_total.append(score_total) 
-                #############################################################
-
-
-                #top_score = top_scores[i]
-                #new_score = alpha*(-top_score/4. + score_total/2.) - (1-alpha)*top_score/4.
-                #new_score = alpha*score_total/2 - (1-alpha)*100*top_score/4.
-                #new_score = min([alpha*(top_score/4. + score_total/2.) + (1-alpha)*top_score/4., 1]) 
-                #scores_total.append([score_total, top_score, new_score])
-            #print(mention_name)            
-
- 
-
-
-        #except:
-        #    print("WARNIIIIIIINNNNG ISSUEEEEEE")
-        #    pdb.set_trace()
         else:
             assert(1)
 
@@ -965,48 +810,6 @@ def finalReturn(alpha, return_types):
 
     return final_count, left_mis_entities, become_mis_entities, become_good_entities
 
-def returnNeighbors(mention_id, frequency_threshold):
-    gold_id = mentionToFeature[mention_id]["gold_entity_id"]
-    gold_type = entityIdToOntologyType[gold_id]
-    neighbors = G.neighbors(entityIdToIndex[gold_id])
-    clean_neighbors = []
-    corrupted_neighbors = []
-
-    neighbor_frequency = {}
-    top10ranked_entities = mentionToTopEntities[mention_id][:12]
-    for top_entity in top10ranked_entities[:12]:
-        neighbors_top_entity = G.neighbors(entityIdToIndex[top_entity["entity_id"]])
-        for nte in neighbors_top_entity:
-            neighbor_frequency[nte] = 0
-                                                                                         
-                                                                                         
-    for top_entity in top10ranked_entities[:12]:
-        neighbors_top_entity = G.neighbors(entityIdToIndex[top_entity["entity_id"]])
-        for nte in neighbors_top_entity:
-            neighbor_frequency[nte] += 1
-
-    for nei in neighbors:
-        try:
-            if entityIdToOntologyType[entityIndexToId[nei]] in GPE_subtypes1[gold_type] and neighbor_frequency[nte] <= frequency_threshold:
-                clean_neighbors.append([entityIndexToId[nei], entityIdToOntologyType[entityIndexToId[nei]], entityIdToName[entityIndexToId[nei]]])
-        except:
-            assert(1)
-
-    for corrupted_entity in top10ranked_entities:
-        corrupted_neighbors_ = []
-        if corrupted_entity["entity_id"] != gold_id:
-            entity_id = corrupted_entity["entity_id"]
-            neighbors = G.neighbors(entityIdToIndex[entity_id])
-            for nei in neighbors:
-                try:
-                    if entityIdToOntologyType[entityIndexToId[nei]] in GPE_subtypes1[gold_type] and neighbor_frequency[nte] <= frequency_threshold:
-                        corrupted_neighbors_.append([entityIndexToId[nei], entityIdToOntologyType[entityIndexToId[nei]], entityIdToName[entityIndexToId[nei]]])
-                except:
-                    assert(1)
-        corrupted_neighbors.append(corrupted_neighbors_)
-
-    return {"gold_neighbors": clean_neighbors, "corrupted_neighbors": corrupted_neighbors}
-
 
 #for alpha_ in [0.3, 0.5, 0.6, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95, 1]:
 final_alphas = []
@@ -1014,9 +817,6 @@ final_become_mis = []
 final_become_good = []
 final_mis = []
 #for alpha_ in [0.2, 0.3, 0.75, 0.90, 0.95, 1]:ok = reScore(mentionToFeature['EL0022161'], 0.3)
-#pdb.set_trace()
-#city_gold_neighbors_name = [nei[2]["entity_name"] for nei in returnNeighbors('EL012254', 1)["gold_neighbors"]]
-#city_corrupted_neighbors_name =  [" ".join([nei[2]["entity_name"] for nei in nej]) for nej in returnNeighbors('EL012254', 1)["corrupted_neighbors"]]
 countries_id = [key for key in entityIdToOntologyType.keys() if entityIdToOntologyType[key] in ['Country']]
 settlements_id = [key for key in entityIdToOntologyType.keys() if entityIdToOntologyType[key] in ["Settlement"]]
 adrs_id = [key for key in entityIdToOntologyType.keys() if entityIdToOntologyType[key] in ["AdministrativeRegion"]]
@@ -1068,15 +868,6 @@ for key in entityIdToOntologyType.keys():
 
 real_ids = set(real_ids).intersection(entityIdToFeatures.keys())
 
-
-
-#ok = reScore(mentionToFeature["EL012254"], 0.3)
-['Region', 'Town', 'Village', 'State', 'AdministrativeRegion', 'Country']
-GPE_subtypes1["City"] = ['AdministrativeRegion', 'Country', 'RadioStation', 'Road', 'OfficeHolder', 'MusicalArtist', 'School', 'BaseballPlayer', 'MilitaryPerson', 'Settlement', 'Company', 'University', 'Building', 'SoccerPlayer', 'IceHockeyPlayer', 'AmericanFootballPlayer', 'Wrestler', 'Politician', 'Congressman', 'Band', 'Writer', 'Governor', 'TelevisionStation', 'Artist', 'Airport', 'HistoricPlace', 'BasketballPlayer', 'SoccerManager', 'Airline', 'ProtectedArea', 'MemberOfParliament', 'Senator', 'PoliticalParty', 'Boxer', 'Cricketer', 'MilitaryUnit', 'Town', 'TradeUnion', 'NascarDriver', 'Stadium', 'BritishRoyalty', 'TennisPlayer', 'Bridge', 'City', 'Judge', 'ComicsCreator', 'ShoppingMall', 'RugbyPlayer', 'Comedian', 'Mayor', 'GridironFootballPlayer', 'RecordLabel', 'President', 'Lake', 'Non-ProfitOrganisation', 'Museum', 'Station', 'Swimmer', 'SoccerClub', 'Model', 'GaelicGamesPlayer', 'Saint', 'PrimeMinister', 'ChristianBishop', 'GovernmentAgency', 'Island', 'Legislature', 'LawFirm', 'PlayboyPlaymate', 'RailwayStation', 'Philosopher', 'RacingDriver', 'SkiArea', 'Park', 'Economist', 'Gymnast', 'MartialArtist', 'Monarch', 'AustralianRulesFootballPlayer', 'Theatre', 'RailwayLine', 'River', 'Planet', 'Lighthouse', 'FigureSkater', 'Architect', 'Actor', 'ReligiousBuilding', 'PublicTransitSystem', 'HistoricBuilding', 'BusCompany', 'MilitaryStructure', 'LacrossePlayer', 'Mountain', 'ChessPlayer', 'CollegeCoach'][:20]
-
-
-
-GPE_subtypes1["City"] = ['School', 'Politician', 'OfficeHolder', 'University', 'Country', 'Company', 'AmericanFootballPlayer', 'SoccerPlayer', 'RadioStation', 'Wrestler', 'Band', 'AdministrativeRegion', 'MilitaryPerson', 'MusicalArtist', 'Congressman', 'IceHockeyPlayer', 'Settlement', 'BaseballPlayer', 'Road'] # intersection gold and corrupted
 
 
 ######################################################### CPU #############################################################
