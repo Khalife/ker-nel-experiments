@@ -88,7 +88,8 @@ Fine-grained ontology classification is achieved by joining DBPedia 2016. Some t
 We refer to the ontology tree:
 http://mappings.dbpedia.org/server/ontology/classes/
 
-For our experiments, ontology types are children of Person, Organization and Place in the ontology tree, so that these are compatible with NIST Datasets annotations (PER, ORG, GPE).  
+For our experiments, ontology types are children of nodes Person, Organization and Place in the ontology tree, but we did not consider hierarchical relations between these types.
+We check these new ontology types are compatible with NIST Datasets annotations (PER, ORG, GPE, in entityIdToOntologyType.py). 
 
 ## b - Graph based scores extraction
 
