@@ -141,12 +141,14 @@ It is composed of a list of entities:
 - Entities of type "AdministrativeRegion"
 - A subset of Entities of type "Country"
 
-It can be improved, as type mapping function.
 
+Finally, all of these parameters can possibly be improved. (Informative set of entities, type mapping function, number of final candidates).
+We did not achieve full parametere optimization, to avoid over-fitting on NIST Datasets (we tried a dozen of configuration), but kept a configuration that was relatively performant. 
 
 
 ## c - Spark compatibility
 
+The following scripts :
 
 - filtering/new_types_collect_complete_score_spark1.py 
 - node-ranking/collect_spark-explore_from_nicknames_collect.py
@@ -158,7 +160,7 @@ To use spark, you should :
 - uncomment spark import headers 
 - comment CPU and uncomment Spark code blocks at the end of files
 
-An example of pyspark command :
+An example of pyspark command (using hadoop) :
 spark-submit --master yarn --driver-memory 15g --num-executors 70 --executor-memory 5G --conf spark.local.dir=/home/usr/tmp collect_complete_score_spark1.py   
 
 
