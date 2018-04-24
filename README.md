@@ -18,7 +18,7 @@ These experiments require
 
 # Routine
 
-- Parse NIST TAC-KBP Datasets, write .json files and knowledge graph (nodes and egdes in a text file)  
+- Parse NIST TAC-KBP Datasets, write .json files (preprocessing/tac-kbp.py, preprocessing/newParseMentions.py) and generate knowledge graph represented by nodes and egdes in a text file) (preprocessing/build_graph.py) 
 - Create dictionnary entity id to ontology type using DBPedia (preprocessing/extract_ontology_dbpedia.py, preprocessing/entityIdToOntologyType.py
 , preprocessing/update-ontology.py)
 - Generate TF-IDF sparse matrices files .npz (filtering/prepare_all_data.py)
