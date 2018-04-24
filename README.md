@@ -53,6 +53,7 @@ Also,
 
 must have been generated. 
 
+Example:
 
 python new_types_collect_complete_score_spark1.py mentions_file.json 
 
@@ -66,7 +67,7 @@ We added an example of regression/classification training using these new entity
 To extract score features from, run
 python collect_spark-explore_from_nicknames_collect.py ontology_type
 
-Example :
+*Example:*
 
 python collect_spark-explore_from_nicknames_collect.py City
 
@@ -83,6 +84,7 @@ A mention index represent the corresponding row in TF-IDF matrices. These indexe
 Fine-grained ontology classification is achieved by joining DBPedia 2016. Some titles have changed between 2009 and 2016. For a list of 15 entities , we manually annoted their ontology type with preprocessing/update-ontology.py 
 
 **Ontology types**
+
 We refer to the ontology tree:
 http://mappings.dbpedia.org/server/ontology/classes/
 
