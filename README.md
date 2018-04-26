@@ -57,13 +57,13 @@ must have been generated.
 
 python new_types_collect_complete_score_spark1.py mentions_file.json 
 
-## Acronym detection and expansion
+**Acronym detection and expansion**
 
 We kept a basic version of acronym detector, using distances between capital letters, and deciding based on the threshold value n depending on the entity main type:
 
-- main type Person ("PER") : n = 4,  
-- main type Person ("ORG") : n = 5,  
-- main type Place ("GPE") : n = 4,  
+- main type Person ("PER") : n = 4  
+- main type Person ("ORG") : n = 5  
+- main type Place ("GPE") : n = 4
 
 For acronym expansion, we compared acronym letters with the capital letters of the expanded candidate words using longest common substring algorithm (cf references in our paper).
 
