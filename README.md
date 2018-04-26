@@ -57,16 +57,6 @@ must have been generated.
 
 python new_types_collect_complete_score_spark1.py mentions_file.json 
 
-**Acronym detection and expansion**
-
-We kept a basic version of acronym detector, using distances between capital letters, and deciding based on the threshold value n depending on the entity main type:
-
-- main type Person ("PER") : n = 4  
-- main type Person ("ORG") : n = 5  
-- main type Place ("GPE") : n = 4
-
-For acronym expansion, we compared acronym letters with the capital letters of the expanded candidate words using longest common substring algorithm (cf references in our paper).
-
 ## 3 - Graph mining for new score features and identification [Hadoop/Spark compatible]
  
 KER-NEL (Knowledge graph exploration and node ranking for named entity linking) uses the knowledge graph to extract semantic information for a given entity node.  
@@ -99,6 +89,16 @@ http://mappings.dbpedia.org/server/ontology/classes/
 
 For our experiments, ontology types are children of nodes Person, Organization and Place in the ontology tree, but we did not consider hierarchical relations between these types.
 We check these new ontology types are compatible with NIST Datasets annotations (PER, ORG, GPE, in entityIdToOntologyType.py). 
+
+**Acronym detection and expansion**
+
+We kept a basic version of acronym detector, using distances between capital letters, and deciding based on the threshold value n depending on the entity main type:
+
+- main type Person ("PER") : n = 4  
+- main type Person ("ORG") : n = 5  
+- main type Place ("GPE") : n = 4
+
+For acronym expansion, we compared acronym letters with the capital letters of the expanded candidate words using longest common substring algorithm (cf references in our paper).
 
 ## b - Graph based scores extraction
 
