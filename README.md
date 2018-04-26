@@ -60,7 +60,7 @@ python new_types_collect_complete_score_spark1.py mentions_file.json
 ## 3 - Graph mining for new score features and identification [Hadoop/Spark compatible]
  
 KER-NEL (Knowledge graph exploration and node ranking for named entity linking) uses the knowledge graph to extract semantic information for a given entity node.  
-Then, capitalizing on a filtering method to take as input a reduced set of entity candidates, it returns the most probable underlying entity to a given query. 
+Then, capitalizing on a filtering method to take as input a reduced set of entity candidates, it returns the estimated true entity associated to the given query. 
 We added an example of regression/classification training using these new entity features.
 
 To extract score features from, run
