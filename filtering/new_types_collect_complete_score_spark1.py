@@ -97,10 +97,6 @@ def scoreAcronym(str1, str2):
     len_longest_letters = float(max([len(first_letters_1), len(first_letters_2)]))
     return (len_longest_letters - levenshtein(first_letters_2, first_letters_1))/len_longest_letters
     
-    #FL1 = set(first_letters_1).intersection(first_letters_2)
-    #FL2 = set(first_letters_1).union(set(first_letters_2))
-    #return float(len(FL1))/len(FL2)
-
 
 defaultDataFolder = sys.argv[1]
 
@@ -108,13 +104,9 @@ id_list = []
 name_list = []
 type_list = []
 text_list = []
-#categories = ["PER", "ORG", "GPE", "UKN"]
-#category = sys.argv[1]
-#print(category)
 write_file_name = sys.argv[1]
 
 
-#entityIdToType = json.load(open("entityIdToOntologyType.json", "r"))
 entityIdToType = json.load(open("entityIdToOntologyType-Updated-27-02-18.json", "r"))
 entityIdToMainType = json.load(open("entityIdToType-Updated-2010.json", "r"))
 categories = list(set([val for val in entityIdToType.values()]))
@@ -126,8 +118,6 @@ for line in edgesIdFile:
     entityIdToIndex = json.loads(line) 
 
 
-#kbFile = open(defaultDataFolder + "knowledgeBaseFile-CorrectTitle.json", "r")
-#kbFile = open("knowledgeBaseFile-Updated-2010.json", "r")
 kbFile = open("knowledgeBaseFile-Updated-2010-TRAIN.json", "r")
 knowledgeBase = []
 
@@ -137,7 +127,6 @@ for line in kbFile:
     local_dic["entity_id"] = dic_line["entity_id"]
     local_dic["entity_name"] = dic_line["entity_name"]
     local_dic["entity_type"] = dic_line["entity_type"]      
-    #if local_dic["entity_type"] in categories:
     try:
         if dic_line["entity_type"] == "UKN":
             if entityUKNIndexToDegree[str(entityIdToIndex[dic_line["entity_id"]])] < 10:
@@ -185,16 +174,6 @@ def processFullText(str1):
     bag_of_words = [word for word in words if (word not in stop_words) and (word != "")]
     return " ".join(bag_of_words)
 
-
-class DistributedTfidfVectorizer(TfidfVectorizer):
-    TfidfVectorizer.idf_ = None #idfs_category
-    TfidfVectorizer.vocabulary_ = None #vocabulary_category
-    def __init__(self, prebuilt_vocabulary=None, prebuilt_idfs=None): #, prebuilt_max_features=2000000):
-    #def __init__(self, value=None):
-        super(DistributedTfidfVectorizer, self).__init__()#max_features=max_features)
-        #self.idf_ = value
-        self.idf_ = prebuilt_idfs
-        self.vocabulary_ = prebuilt_vocabulary
 
 def reverse_insort_index(a, x, lo=0, hi=None):
     if hi is None:
@@ -277,7 +256,6 @@ def reverse_insort_key(a, x, key="total_score", lo=0, hi=None):
         mid = (lo+hi)//2
         if x[key] > a[mid][key]: hi = mid
         else: lo = mid+1
-    #a.insert(lo, x)
     original_length = len(a)
     a[lo+1:] = a[lo:(len(a)-1)]
     a[lo] = x
@@ -285,11 +263,6 @@ def reverse_insort_key(a, x, key="total_score", lo=0, hi=None):
 
     
 def acronymTest(str1, main_type):
-    #score1 = 1/float(len(str1))
-    #uppers = ([l for l in str1 if l.isupper()])
-
-
-    # Get sequence of lenghts between upper letters
     distances = []
     nb_letters = len(str1)
     i = 0
@@ -313,18 +286,7 @@ def acronymTest(str1, main_type):
     if main_type == "GPE":
         max_distances = 4
 
-
-    #return (score1 + len(uppers))*10
     return distances, (len(distances) > 0) and ( sum(distances) <= len(distances) ) and ( len(distances) < max_distances ) #and ( len(distances) <= 5 )
-
-#def acronymScore(str1, str2):
-#   capital_letters = "".join([l for l in str2 if l.isupper()])
-#   #len_longest_letters = float(max([len(str1), len(str2)])    
-#   #norm_nb_letters = float(len(str1))
-#   norm_nb_letters = float(max([len(str1), len(str2)]))
-#   acronym_score = 1 - levenshtein(str1, capital_letters)/norm_nb_letters  
-#   ## parameter ??? norm_nb_letters
-#   return acronym_score
 
 def longest_common_substring(s1, s2):
     m = [[0] * (1 + len(s2)) for i in range(1 + len(s1))]
@@ -339,7 +301,6 @@ def longest_common_substring(s1, s2):
             else:
                 m[x][y] = 0
     return longest
-        #return s1[x_longest - longest: x_longest]
 
 
 def acronymScore1(str1, str2):
@@ -379,7 +340,6 @@ def longest_common_substring2(s1, s2):
 
 
 def unicodeName(name):
-    #name_u = unicode(name, 'utf-8')
     name_clean = unicodedata.normalize('NFD', name)
     name_clean = name_clean.encode('ascii', 'ignore')
     return name_clean
@@ -401,26 +361,20 @@ def nelRankingSystem(dic_line):
     first_order = False
     row_index = -1
     rank_dic = {}
-    #categories = ["ORG", "PER", "GPE", "UKN"]
     list_ranks = []
     gold_dic = {}
     for category in categories:
-    #for category in ["ORG", "PER", "GPE", "UKN"]:
         list_ranks_categories[category] = []
 
     index_kb = -1
-    #pdb.set_trace()
     results_tfidf = matrix_kb.dot(M_mention_tfidf.T)
     for i_dic in knowledgeBase:
         index_kb += 1
         context_score = results_tfidf[index_kb][0,0] 
 
         if mention_gold_entity_type == entityIdToType[i_dic["entity_id"]]:
-            #if mention_id == "EL3808":
-            #    pdb.set_trace()
             _, acronym_test = acronymTest(mention_name, entityIdToMainType[mention_gold_entity_id])
             _, acronym_test_entity = acronymTest(i_dic["entity_name"], entityIdToMainType[mention_gold_entity_id])
-            #closest_clean_entity_name = i_dic["entity_name"].split("_(")[0] 
             closest_clean_entity_name = i_dic["entity_name"]
             closest_clean_entity_name =  unicodeName(closest_clean_entity_name).replace("_", " ")
             closest_clean_entity_name = re.sub(rx, " ", closest_clean_entity_name)
@@ -428,13 +382,8 @@ def nelRankingSystem(dic_line):
             closest_clean_mention_name = re.sub(rx, " ", closest_clean_mention_name)
 
             if acronym_test or acronym_test_entity:
-                #name_score = acronymScore1(mention_name, i_dic["entity_name"])
-                #if mention_gold_entity_type == "City":
-                #    closest_clean_entity_name = closest_clean_entity_name.split(",_")[0]
                 if acronym_test:
                     if acronym_test_entity:
-                        #norm_name_factor = min([len(closest_clean_entity_name), len(closest_clean_mention_name)])
-                        #name_score = longest_common_substring(closest_clean_entity_name, closest_clean_mention_name)/float(norm_name_factor)
                         name_score = acronymScore1(closest_clean_mention_name, closest_clean_entity_name)
                     else:
                         name_score = acronymScore1(closest_clean_mention_name, closest_clean_entity_name)
@@ -449,33 +398,20 @@ def nelRankingSystem(dic_line):
                 score3 = scoreLetterNgram(closest_clean_mention_name, closest_clean_entity_name, 3)
                 score4 = scoreLetterNgram(closest_clean_mention_name, closest_clean_entity_name, 4)
                 name_score = (score2 + score3 + score4)/3
-                #name_score = longest_common_substring(mention_name.lower(), i_dic["entity_name"].lower())/float(min([len(mention_name),len(i_dic["entity_name"])]))
     
             if i_dic["entity_id"] == mention_gold_entity_id:
                 gold_dic = {"mention_gold_entity_id":mention_gold_entity_id}
                 gold_score = name_score + context_score
-                
         
-            #list_ranks_categories[i_dic["entity_type"]] = reverse_insort_dic(list_ranks_categories[i_dic["entity_type"]], {"entity_id" : i_dic["entity_id"], "score" : name_score + context_score})
             list_ranks_categories[entityIdToType[i_dic["entity_id"]]] = reverse_insort_dic(list_ranks_categories[entityIdToType[i_dic["entity_id"]]], {"entity_id" : i_dic["entity_id"], "score" : name_score + context_score}) 
-        #else:
-            #list_ranks_categories[i_dic["entity_type"]] = reverse_insort_dic(list_ranks_categories[i_dic["entity_type"]], {"entity_id" : i_dic["entity_id"], "score" : context_score})
-            #list_ranks_categories[entityIdToType[i_dic["entity_id"]]] = reverse_insort_dic(list_ranks_categories[entityIdToType[i_dic["entity_id"]]], {"entity_id" : i_dic["entity_id"], "score" : context_score}) 
-            
-        #list_ranks = reverse_insort_dic(list_ranks, name_score + context_score)
-        #rank_dic[i_dic["entity_id"]] = name_score + context_score
-        #prediction_rank = reverse_insort_index(list_ranks, gold_score)
-
 
     return {"mention_id" : mention_id, "gold_dic" : gold_dic, "prediction_ranks" : list_ranks_categories}   
-    #return [mention_id, mention_name, gold_dic, gold_score, prediction_rank]
     
 
 mentions_category = []
 mentions_file = open(write_file_name, "r")
 for line in mentions_file:
     dic_line = json.loads(line)
-    #if category in dic_line["gold_entity_type"] and "NIL" not in dic_line["gold_entity_id"]:
     mentions_category.append(dic_line)
 
 
