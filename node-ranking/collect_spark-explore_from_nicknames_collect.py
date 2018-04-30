@@ -348,7 +348,7 @@ typeToThreshold = json.load(open("../typeToThreshold.json", "r"))
 
 import re
 rx = re.compile(r"[\W]")
-def reScore(mention_mis_, alpha): #, neighbors_id_):
+def reScore(mention_mis_): #, neighbors_id_):
     # 1- Load top 10 ranked entities
         # for each of them load neighbors
     # 2- Compute agregated score for each of the neigbhor
@@ -550,12 +550,6 @@ def reScore(mention_mis_, alpha): #, neighbors_id_):
         
         return return_dic
 
-
-def returnNewScores(i, alpha):
-    result_i = reScore(mentionToFeature[all_mentions_id[i]], alpha)
-    rank_i = mentionToRank[all_mentions_id[i]]
-    return rank_i, result_i
-
 mentions_cities_id = ["EL012254","EL012253","EL000634","EL002619","EL012826","EL013447","EL012823","EL012820","EL012825","EL013470","EL013471","EL013476","EL013475","EL001719","EL012833","EL013723","EL013462","EL013734","EL013739","EL000156","EL002634","EL001946","EL013762","EL013760","EL000449","EL012203","EL000680","EL001222","EL003255","EL012210","EL012044","EL012264","EL012266","EL012262","EL012263","EL001938","EL013058","EL012270","EL012831","EL012830"]
 mentions_settlement_id = ["EL013755","EL012857","EL013744","EL013749","EL000836","EL000831","EL012193","EL013753","EL013750","EL000825","EL013773","EL012206","EL012201","EL012866","EL007215"] 
 mentions_company_id = ["EL005455","EL012385","EL010113","EL011418","EL006532","EL006051","EL013621","EL013620","EL013619","EL006748","EL012107"]
@@ -568,7 +562,6 @@ mentions_country = ["EL001632", "EL007679", "EL007673", "EL003201"]
 mentions_tradeUnion = ["EL012927", "EL012929", "EL012928", "EL012925"]
 mentions_legislature = ["EL010973", "EL010971", "EL010966", "EL010968"]
 
-final_alphas = []
 final_become_mis = []
 final_become_good = []
 final_mis = []
@@ -628,7 +621,7 @@ print(len(mentions_concerned_id))
 mention_mis_list = [mentionToFeature[mci] for mci in mentions_concerned_id]
 results1 = []
 for i in range(len(mention_mis_list)):
-    results1.append(reScore(mention_mis_list[i], 0.5))
+    results1.append(reScore(mention_mis_list[i]))
 
 pdb.set_trace()
 ###########################################################################################################################
@@ -641,6 +634,6 @@ pdb.set_trace()
 #mention_mis_list = [mentionToFeature[mci] for mci in mentions_concerned_id]
 #mention_mis_spark_list = sc.parallelize(mention_mis_list, 80)
 #alpha_ = 0.5
-#results_spark = mention_mis_spark_list.map(lambda x : reScore(x, alpha_))
+#results_spark = mention_mis_spark_list.map(lambda x : reScore(x))
 #results_spark.saveAsTextFile("rescore_neighbors_collect_spark_" + type_concerned + ".json")
 ############################################################################################################################
