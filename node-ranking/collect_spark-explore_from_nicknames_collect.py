@@ -122,6 +122,26 @@ def bfs_edges_level_myGraph(G, max_depth, source):
         except StopIteration:
             queue.popleft()
 
+def bfs_edges_level_igraph(G, max_depth, source):
+    #neighbors = G.neighbors_iter
+    visited = set([source])
+
+    if max_depth > 0:
+        queue = deque([(source, 0, iter(G.neighbors(source)))])
+    else:
+        queue = deque([])
+    while queue:
+        parent, depth, children = queue[0]
+        try:
+            child = next(children)
+            if child not in visited:
+                yield parent, child
+                visited.add(child)
+            if depth+1 < max_depth:
+                queue.append((child, depth+1, iter(G.neighbors(child))))
+        except StopIteration:
+            queue.popleft()
+
 
 
 print("Building graph")
@@ -478,24 +498,31 @@ def reScore(mention_mis_): #, neighbors_id_):
                         if test < 1:
                             shortest_path_countries = []
                             counter_country = 0
-                            for real_country_id in real_countries_id:
-                                shortest_path_length_value = G.shortest_paths_dijkstra(entityIdToIndex[top_entity["entity_id"]], entityIdToIndex[real_country_id])[0][0]
-                                shortest_path_countries.append(shortest_path_length_value)
-                            shortest_path_countries_min = min(shortest_path_countries)
-                            if shortest_path_countries_min < 3:
-                                countries_candidate = [real_countries_id[j] for j in range(len(real_countries_id)) if shortest_path_countries[j] == shortest_path_countries_min]
+
+                            explored_nodes = bfs_edges_level_igraph(G, 2, entityIdToIndex[top_entity["entity_id"]])
+                            explored_nodes = [entityIndexToId[en[1]] for en in explored_nodes]
+
+                            found_countries = list(set(explored_nodes).intersection(real_countries_id))
+                            shortest_lengths = []
+                            for real_country_id in found_countries:
+                                shortest_length = G.shortest_paths_dijkstra(entityIdToIndex[top_entity["entity_id"]], entityIdToIndex[real_country_id])[0][0]
+                                shortest_lengths.append(shortest_length)
+
+                            shortest_indexes = [i for i in range(len(shortest_lengths)) if shortest_lengths[i] == min(shortest_lengths)]
+
+
+                            if len(found_countries) > 0:
+                                countries_candidate = [found_countries[si] for si in shortest_indexes]
                                 if len(countries_candidate) > 0:
-                                    if len(countries_candidate) > 1:
-                                        countries_and_co_index_to_keep_local = [entityIdToFeatures[cid]["entity_index"] for cid in countries_candidate]
-                                        entity_vector = M_KB_TFIDF[entityIdToFeatures[top_entity["entity_id"]]["entity_index"]]
-                                        countries_and_co_matrix_local = M_KB_TFIDF[countries_and_co_index_to_keep_local]
-                                        dot_result = countries_and_co_matrix_local.dot(entity_vector.transpose())
-                                        index_final_candidate = np.argmax([x[0,0] for x in dot_result])
-                                        final_country_candidate = countries_candidate[index_final_candidate]
+                                    countries_and_co_index_to_keep_local = [entityIdToFeatures[cid]["entity_index"] for cid in countries_candidate]
+                                    entity_vector = M_KB_TFIDF[entityIdToFeatures[top_entity["entity_id"]]["entity_index"]]
+                                    countries_and_co_matrix_local = M_KB_TFIDF[countries_and_co_index_to_keep_local]
+                                    dot_result = countries_and_co_matrix_local.dot(entity_vector.transpose())
+                                    index_final_candidate = np.argmax([x[0,0] for x in dot_result])
+                                    final_country_candidate = countries_candidate[index_final_candidate]
                                     
-                                    else: 
-                                        final_country_candidate = countries_candidate[0]
-    
+                                else: 
+                                    final_country_candidate = countries_candidate[0]
                                     filtered_neighbors_.append(final_country_candidate)
                             
                         neighbors_type_i = [entityIdToOntologyType[fn] for fn in filtered_neighbors_]                           
