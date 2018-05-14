@@ -121,7 +121,7 @@ The corresponding types mapping are the following On the following entity types 
 
 **Neighborhood definition**
 
-A neighborhood of a node entity is defined as his direct neighbors.
+In our implementation, a neighborhood of a node entity is defined as the set of his neighbors in the knowledge graph.
 
 We made an exception consistent with our type mapping function.
 Indeed, for node entities for which ontology type is a city, and if there is no country in their neighborhood, we computed shortest path between countries nodes and the entity node and kept the closest node. (We first built the list of all countries nodes, so that it avoids to re-compute Breadth first search).
