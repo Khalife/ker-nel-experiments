@@ -187,7 +187,7 @@ spark-submit --master yarn --driver-memory 15g --num-executors 70 --executor-mem
 We noticed on NIST TAC-KBP 2010 dataset 2 entities type in contradiction with Wikipedia dump used for this challenge.
 For more details : mention with ID EL004107 with gold entity ID E0466642 which is presented as a person (PER) wheras it is a localization (GPE); and mention with ID EL004411 with gold entity ID E0793726 presented as a per- son (PER) wheras it is an organization (ORG). We considered mention annotation as the ground truth and run experiments accordingly, though these types are often replaced by fine-grained classification.
 
-** Datasets **
+**Datasets**
 
 The datasets we used for these experiments are :
 
