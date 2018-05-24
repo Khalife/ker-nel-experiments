@@ -1,7 +1,8 @@
 This repository is dedicated to research experiments for **Graph based named of entities**.
 Please find below our comments to make these experiments reproducible.
 
-In particular, we invite reviewers to refer to the detailed comment section concerning our implementation of preprocessing, filtering and score features extraction.
+In particular, we invite reviewers to refer to the detailed comments section concerning our implementation of preprocessing, filtering, score features extraction. 
+We also dedicated a section to the datasets used for the experiments.
 
 These modules were designed as one global routine for Named entity identification/linking problem, they are relatively independant though. 
 
@@ -186,3 +187,10 @@ spark-submit --master yarn --driver-memory 15g --num-executors 70 --executor-mem
 We noticed on NIST TAC-KBP 2010 dataset 2 entities type in contradiction with Wikipedia dump used for this challenge.
 For more details : mention with ID EL004107 with gold entity ID E0466642 which is presented as a person (PER) wheras it is a localization (GPE); and mention with ID EL004411 with gold entity ID E0793726 presented as a per- son (PER) wheras it is an organization (ORG). We considered mention annotation as the ground truth and run experiments accordingly, though these types are often replaced by fine-grained classification.
 
+** Datasets **
+
+The datasets we used for these experiments are :
+
+- NIST TAC-KBP 2009, 2010, 2014 : http://www.nist.gov/tac/). If you can't obtain these datasets from NIST, we can send you on demand at khalife@lix.polytechnique.fr (please send the motivation of your demand)
+- Dbpedia ontology files instance_types_en.nt, available at http://wiki.dbpedia.org/services-resources/ontology
+- Other dataset files such as entity to type dictionnaries, Knowledge graph, ... are generated with the preprocessing routine
