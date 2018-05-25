@@ -194,4 +194,4 @@ For more details : mention with ID EL004107 with gold entity ID E0466642 which i
 - NIST TAC-KBP 2009, 2010, 2014 : http://www.nist.gov/tac/). If you can't obtain these datasets from NIST, we can send you on demand at khalife@lix.polytechnique.fr (please send the motivation of your demand)
 - Dbpedia ontology files instance_types_en.nt, available at http://wiki.dbpedia.org/services-resources/ontology
 
-Other dataset files such as entity to type dictionnaries, Knowledge graph, ... are generated with the preprocessing routine
+Other dataset files such as entity to type dictionnaries, Knowledge graph, ... are generated with the preprocessing routine described in section 1 and Detailed comments/a.
